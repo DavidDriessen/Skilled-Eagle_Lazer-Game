@@ -1,2 +1,7 @@
 .idea
-CMakeLists.txt
+Source/*.o
+Source/*.bin
+Source/*.c
+Source/*.elf
+Source/*.ld
+Source/*.map
