@@ -1,7 +1,7 @@
 .idea
-Source/*.o
-Source/*.bin
-Source/*.c
-Source/*.elf
-Source/*.ld
-Source/*.map
+*.o
+*.bin
+*.c
+*.elf
+*.ld
+*.map
