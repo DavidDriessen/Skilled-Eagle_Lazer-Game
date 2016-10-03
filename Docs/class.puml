@@ -1,0 +1,62 @@
+@startuml
+
+class Ir_sensors{
+-receivedData
++send()
++receive()
+-decode()
+}
+class Display_controller {
++push(data)
+}
+class Sound_Controller{
++start(sound, duration)
+}
+class Wifi_Controller{
+
+}
+class User_Input_Controller{
+-decode()
++getKeyPad()
++getButton()
+}
+class Console{
+}
+class Operation_Controller{
++gameSetup()
+}
+class Data_Controller{
+-score
+-lives
+-wapen
+-gameMode
++addScore(score)
++setLives(lives)
++lowerLive()
++setWapen(wapen)
++getWapen()
++setGameMode()
++getGameMode()
+}
+
+enum Wapens
+enum GameModes
+
+Operation_Controller <|-- Data_Controller
+Operation_Controller <|-- Display_controller
+Operation_Controller <|-- Console
+Operation_Controller <|-- Wifi_Controller
+Operation_Controller <|-- Sound_Controller
+Operation_Controller <|-- User_Input_Controller
+Operation_Controller <|-- Ir_sensors
+
+Console <|-- Display_controller
+Wifi_Controller --|> Data_Controller
+Ir_sensors --|> Data_Controller
+
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+@enduml
