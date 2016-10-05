@@ -1,15 +1,12 @@
-#include "hwlib.hpp"
+//
+// Created by david on 10/5/2016.
+//
 
-#define RESOLUTION 200
-#define MAXPULSE 2000 / RESOLUTION
-#define MINPULSE 300 / RESOLUTION
-int pulses[100][2] = {0};
-int currentpulse = 0;
-bool print = 0;
+#include "IR_Receiver.hpp"
 
-void printpulses(void)
+void IR_Receiver::printpulses(void)
 {
-    if (print) {
+    if (debug) {
         hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
         for (int i = 0; i < currentpulse; i++) {
             hwlib::cout << pulses[i][0] * RESOLUTION;  //verwissel deze 0 en 1 om positie van high and low te wissellen
@@ -29,25 +26,7 @@ void printpulses(void)
     }
 }
 
-
-int main(void)
-{
-    hwlib::wait_ms(500);
-    // kill the watchdog
-    WDT->WDT_MR = WDT_MR_WDDIS;
-
-    namespace target = hwlib::target;
-
-    auto tsop_signal = target::pin_in(target::pins::d8);
-    auto tsop_gnd = target::pin_out(target::pins::d9);
-    auto tsop_vdd = target::pin_out(target::pins::d10);
-
-    ///kruislings lezen
-
-    tsop_gnd.set(0);
-    tsop_vdd.set(1);
-
-    int highpulse, lowpulse;
+void IR_Receiver::main() {
     while(1) {
         currentpulse = 0;
         while (currentpulse < 16) {
@@ -57,7 +36,8 @@ int main(void)
             while (tsop_signal.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
-                hwlib::wait_us(RESOLUTION);
+                interval.set(RESOLUTION);
+                wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if (highpulse >= MAXPULSE) {
@@ -73,7 +53,8 @@ int main(void)
             while (tsop_signal.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
-                hwlib::wait_us(RESOLUTION);
+                interval.set(RESOLUTION);
+                wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if (lowpulse >= MAXPULSE) {

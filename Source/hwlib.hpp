@@ -5,5 +5,6 @@
 #ifndef SKILLED_EAGLE_HWLIB_HPP
 #define SKILLED_EAGLE_HWLIB_HPP
 #include "../hwlib/hwlib.hpp"
+#include "../rtos/rtos.hpp"
 
 #endif //SKILLED_EAGLE_HWLIB_HPP

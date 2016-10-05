@@ -31,14 +31,14 @@
 //     * */
 //}
 //
-//void readIr(auto tsop_signal)
+//void readIr(auto ir)
 //{
 //    int highpulse, lowpulse;
 //    highpulse = lowpulse = 0;
 //
 //    while(1) {
 //	highpulse = lowpulse = 0;
-//	while(tsop_signal.get() == 0) {
+//	while(ir.get() == 0) {
 //
 //	    highpulse++;
 //	    hwlib::wait_us(RESOLUTION);
@@ -52,7 +52,7 @@
 //
 //	pulses[currentpulse][0] = highpulse;
 //
-//	while(tsop_signal.get() == 1) {
+//	while(ir.get() == 1) {
 //	    lowpulse++;
 //	    hwlib::wait_us(RESOLUTION);
 //	    if((lowpulse >= MAX) && (currentpulse != 0)) {
@@ -76,7 +76,7 @@
 //
 //    namespace target = hwlib::target;
 //
-//    auto tsop_signal = target::pin_in(target::pins::d8);
+//    auto ir = target::pin_in(target::pins::d8);
 //    auto tsop_gnd = target::pin_out(target::pins::d9);
 //    auto tsop_vdd = target::pin_out(target::pins::d10);
 //
@@ -87,7 +87,7 @@
 //     test
 //     while(1) {
 //    	hwlib::cout<< "reading\n";
-//     readIr(tsop_signal);
+//     readIr(ir);
 //     hwlib::cout<< "stash";
 //    }
 //
@@ -98,7 +98,7 @@
 //	 zet de timing variabelen op 0
 //	highpulse = lowpulse = 0;
 //	 terwijl het signaal uit de decoder laag is
-//	while(tsop_signal.get() == 1) {
+//	while(ir.get() == 1) {
 //	     verhoog tijd variabele en wacht aantal us
 //	    highpulse++;
 //	    hwlib::wait_us(RESOLUTION);
@@ -115,7 +115,7 @@
 //	 sla de pulse op in het pulse array
 //	pulses[currentpulse][0] = highpulse;
 //	 terwijl het signaal uit de decoder hoog is
-//	while(tsop_signal.get() == 0) {
+//	while(ir.get() == 0) {
 //	     verhoog tijd variabele en wacht aantal us
 //	    lowpulse++;
 //	    hwlib::wait_us(RESOLUTION);
@@ -180,7 +180,7 @@ int main(void) {
 
     namespace target = hwlib::target;
 
-    auto tsop_signal = target::pin_in(target::pins::d8);
+    auto ir = target::pin_in(target::pins::d8);
     auto tsop_gnd = target::pin_out(target::pins::d9);
     auto tsop_vdd = target::pin_out(target::pins::d10);
 
@@ -198,7 +198,7 @@ int main(void) {
         // zet de timing variabelen op 0
         highpulse = lowpulse = 0;
         // terwijl het signaal uit de decoder laag is
-        while (tsop_signal.get() == 1) {
+        while (ir.get() == 1) {
             // verhoog tijd variabele en wacht aantal us
             highpulse++;
             hwlib::wait_us(RESOLUTION);
@@ -214,7 +214,7 @@ int main(void) {
         // sla de pulse op in het pulse array
         pulses[currentpulse][0] = highpulse;
         // terwijl het signaal uit de decoder hoog is
-        while (tsop_signal.get() == 0) {
+        while (ir.get() == 0) {
             // verhoog tijd variabele en wacht aantal us
             lowpulse++;
             hwlib::wait_us(RESOLUTION);

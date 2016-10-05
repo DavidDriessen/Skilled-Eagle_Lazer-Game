@@ -33,5 +33,5 @@ add_custom_target(BMPTK_clean_upload_${PROJECT_NAME}
         COMMENT "Uploading ${PROJECT_NAME}")
 
 
-set(SOURCE_FILES Source/main.cpp)
+set(SOURCE_FILES Source/main.cpp Source/IR_Receiver.cpp Source/IR_Receiver.hpp Source/IR_Zender.cpp Source/IR_Zender.hpp)
 add_executable(Skilled_Eagle ${SOURCE_FILES})
