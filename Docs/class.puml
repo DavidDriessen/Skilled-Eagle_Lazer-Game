@@ -42,19 +42,14 @@ enum Wapens
 enum GameModes
 
 
-Console <|-- Data_Controller
-Wifi_Controller --|> Data_Controller
-Display_controller --|> Data_Controller
-IrReceiver --|> Data_Controller
-IrSender <|-- Fire
-Fire <|-- Data_Controller
-Wapens --|> Data_Controller
-GameModes --|> Data_Controller
+Console <.. Data_Controller: <include>
+Wifi_Controller <.. Data_Controller: <include>
+Display_controller <.. Data_Controller: <include>
+IrReceiver <.. Data_Controller: <include>
+Fire <.. Data_Controller: <include>
+Wapens <.. Data_Controller: <include>
+GameModes <.. Data_Controller: <include>
 Sound_Controller <|-- Fire
-
-'class ArrayList {
-'Object[] elementData
-'size()
-'}
+IrSender <|-- Fire
 
 @enduml
