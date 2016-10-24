@@ -3,7 +3,7 @@
 ## ClassDiagram
 
 ![Alt text](http://g.gravizo.com/g?
-  digraph G {
+  digraph G {@startuml
              class IrReceiver{
              -dataToSend
              +receive()
@@ -55,5 +55,7 @@
              GameModes <.. Data_Controller: <include>
              Sound_Controller <|-- Fire
              IrSender <|-- Fire
+
+             @enduml
   }
 )
