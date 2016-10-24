@@ -36,7 +36,6 @@ void IR_Receiver::main() {
             while (tsop_signal.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
-                interval.set(RESOLUTION);
                 wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
@@ -53,7 +52,6 @@ void IR_Receiver::main() {
             while (tsop_signal.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
-                interval.set(RESOLUTION);
                 wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return

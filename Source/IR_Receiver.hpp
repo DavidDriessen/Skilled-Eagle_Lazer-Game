@@ -28,7 +28,7 @@ public:
     IR_Receiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name) :
             task(priority, name),
             tsop_signal(tsop_signal),
-            interval( this, "ir_interval")
+            interval( this, RESOLUTION, "ir_interval")
     {};
 
 };

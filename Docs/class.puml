@@ -1,12 +1,16 @@
 @startuml
 
-class Ir_sensors{
+class IrReceiver{
+-dataToSend
++receive()
+}
+class IrSender{
 -receivedData
-+send()
 +receive()
 -decode()
 }
 class Display_controller {
++test()
 +push(data)
 }
 class Sound_Controller{
@@ -15,15 +19,10 @@ class Sound_Controller{
 class Wifi_Controller{
 
 }
-class User_Input_Controller{
--decode()
-+getKeyPad()
-+getButton()
+class Fire{
+-getButton()
 }
 class Console{
-}
-class Operation_Controller{
-+gameSetup()
 }
 class Data_Controller{
 -score
@@ -42,17 +41,16 @@ class Data_Controller{
 enum Wapens
 enum GameModes
 
-Operation_Controller <|-- Data_Controller
-Operation_Controller <|-- Display_controller
-Operation_Controller <|-- Console
-Operation_Controller <|-- Wifi_Controller
-Operation_Controller <|-- Sound_Controller
-Operation_Controller <|-- User_Input_Controller
-Operation_Controller <|-- Ir_sensors
 
-Console <|-- Display_controller
+Console <|-- Data_Controller
 Wifi_Controller --|> Data_Controller
-Ir_sensors --|> Data_Controller
+Display_controller --|> Data_Controller
+IrReceiver --|> Data_Controller
+IrSender <|-- Fire
+Fire <|-- Data_Controller
+Wapens --|> Data_Controller
+GameModes --|> Data_Controller
+Sound_Controller <|-- Fire
 
 'class ArrayList {
 'Object[] elementData
