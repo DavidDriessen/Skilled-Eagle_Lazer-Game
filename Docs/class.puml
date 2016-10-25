@@ -9,47 +9,49 @@ class IrSender{
 +receive()
 -decode()
 }
-class Display_controller {
+class LCD {
 +test()
 +push(data)
 }
-class Sound_Controller{
+class Sound{
 +start(sound, duration)
-}
-class Wifi_Controller{
-
 }
 class Fire{
 -getButton()
 }
 class Console{
 }
-class Data_Controller{
+class DataController{
 -score
--lives
 -wapen
 -gameMode
 +addScore(score)
-+setLives(lives)
-+lowerLive()
 +setWapen(wapen)
 +getWapen()
 +setGameMode()
 +getGameMode()
+}
+class GameTimeController{
++start()
++pause()
++resume()
++stop()
 }
 
 enum Wapens
 enum GameModes
 
 
-Console <.. Data_Controller: <include>
-Wifi_Controller <.. Data_Controller: <include>
-Display_controller <.. Data_Controller: <include>
-IrReceiver <.. Data_Controller: <include>
-Fire <.. Data_Controller: <include>
-Wapens <.. Data_Controller: <include>
-GameModes <.. Data_Controller: <include>
-Sound_Controller <|-- Fire
-IrSender <|-- Fire
+GameModes ..> DataController: <include>
+Wapens ..> DataController: <include>
+Fire <.. DataController: <include>
+Console <.. DataController: <include>
+LCD <-- DataController
+GameTimeController <.. DataController: <include>
+GameTimeController --> LCD
+GameTimeController --|> Fire
+IrReceiver --> DataController
+Sound <-- Fire
+IrSender <-- Fire
 
 @enduml
