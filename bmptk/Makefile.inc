@@ -754,6 +754,7 @@ endef
 ifeq ($(CHIP),atsam3x8e)
    $(eval $(Atmel_SAM3))
    ROM_SIZE       ?= 512k
+   RAM_START      ?= 0x20070000    
    RAM_SIZE       ?= 96k
    STACK_SIZE     ?= 92160     
    DEFINES        += -D__SAM3X8E__ 

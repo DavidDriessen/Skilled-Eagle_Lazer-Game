@@ -60,12 +60,60 @@
 extern "C" {
 #endif
 
+/// the size (in bytes) reserved for the heap
+//
+/// On a bare-metal system this function returns the number of bytes reserved
+/// for the heap. 
+/// On a hosted system, where the heap space is allocated on demand,
+/// it might not return a meaningful number.
 size_t bmptk_heap_size();   
+
+/// the size (in bytes) of the free space on the heap
+//
+/// On a bare-metal system this function returns the number of bytes of the 
+/// heap that are currently free (not allocated).
+///
+/// On a hosted system, where the heap space is allocated on demand,
+/// it might not return a meaningful number.
 size_t bmptk_heap_free();   
+
+/// the size (in bytes) in use (allocated) on the heap
+//
+/// On a bare-metal system this function returns the number of bytes of the 
+/// heap that are currently in use (allocated).
+///
+/// On a hosted system it might not return a meaningful number.
 size_t bmptk_heap_used();   
 
+/// the size (in bytes) reserved for the stack
+//
+/// On a bare-metal system this function returns the number of bytes reserved
+/// for the stack. 
+///
+/// On a hosted system, where the stack space is allocated on demand,
+/// it might not return a meaningful number.
 size_t bmptk_stack_size();
+
+/// the size (in bytes) of the stack space that has never been used
+//
+/// On a bare-metal system this function returns the number of bytes of
+/// the stack that have never been used. This is detected by 
+/// initializing the stack space words with a marker value, and
+/// checking for the first word that no longer contains the marker value.
+///
+/// On a hosted system, where the stack space is allocated on demand,
+/// it might not return a meaningful number. 
 size_t bmptk_stack_free();
+
+/// the size (in bytes) of the stack space that has been used at some time
+//
+/// On a bare-metal system this function returns the maximum number of bytes of
+/// the stack that have been used. This is detected by 
+/// initializing the stack space words with a marker value, and
+/// checking for the first word that no longer contains the marker value.
+///
+/// On a hosted system, where the stack space is allocated on demand,
+/// it might not return a meaningful number. 
 size_t bmptk_stack_used();
 
 #ifdef __cplusplus

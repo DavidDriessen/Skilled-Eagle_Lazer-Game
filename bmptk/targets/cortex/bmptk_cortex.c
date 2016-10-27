@@ -35,6 +35,8 @@ void (* const volatile __vectors[ 44 ])(void)
       Int27_Handler
 };      
 
+void set_regs();
+
 void __attribute__((noreturn)) __startup( void ){
    extern unsigned int __data_init_start;
    //extern unsigned int __stack_start;
@@ -50,7 +52,8 @@ void __attribute__((noreturn)) __startup( void ){
 	 d = & __bss_start;
 	 e = & __bss_end;
 	 while( d != e ){
-        *d++ = 0;
+        *d = 0;
+        d++;
 	 }
 	 	 
 	 // copy .data section from flash to ram
@@ -58,9 +61,11 @@ void __attribute__((noreturn)) __startup( void ){
 	 d = & __data_start;
 	 e = & __data_end;
 	 while( d != e ){ 
-	    *d++ = *s++;
-	 }   
-  
+	    *d = *s;
+       d++;
+       s++;
+	 }        
+    
    // call main   
    (void) main(); 
    

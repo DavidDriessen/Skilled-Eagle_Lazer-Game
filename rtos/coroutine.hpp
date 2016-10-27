@@ -1,3 +1,5 @@
+/// @file
+
 #ifndef coroutine_H
 #define coroutine_H
 

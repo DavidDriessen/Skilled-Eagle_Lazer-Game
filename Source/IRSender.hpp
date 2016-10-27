@@ -8,16 +8,16 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-class IR_Zender : public rtos::task<> {
+class IRSender : public rtos::task<> {
     hwlib::pin_out &ir;
     rtos::timer interval;
     void main();
 
 public:
-    IR_Zender(hwlib::pin_out &ir, unsigned int priority, const char *name) :
+    IRSender(hwlib::pin_out &ir, unsigned int priority, const char *name) :
             task(priority, name),
             ir(ir),
-            interval(this, "ir_interval") {};
+            interval(this, "IRSender_interval") {};
 
 };
 
