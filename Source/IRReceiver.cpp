@@ -2,9 +2,9 @@
 // Created by david on 10/5/2016.
 //
 
-#include "IR_Receiver.hpp"
+#include "IRReceiver.hpp"
 
-void IR_Receiver::printpulses(void)
+void IRReceiver::printpulses(void)
 {
     if (debug) {
         hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
@@ -26,7 +26,7 @@ void IR_Receiver::printpulses(void)
     }
 }
 
-void IR_Receiver::main() {
+void IRReceiver::main() {
     while(1) {
         currentpulse = 0;
         while (currentpulse < 16) {
@@ -36,6 +36,7 @@ void IR_Receiver::main() {
             while (tsop_signal.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
+                interval.set(RESOLUTION);
                 wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
@@ -52,6 +53,7 @@ void IR_Receiver::main() {
             while (tsop_signal.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
+                interval.set(RESOLUTION);
                 wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return

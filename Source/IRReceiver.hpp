@@ -8,11 +8,11 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-#define RESOLUTION 200
+#define RESOLUTION 1200 //200
 #define MAXPULSE 2000 / RESOLUTION
 #define MINPULSE 300 / RESOLUTION
 
-class IR_Receiver : public rtos::task<> {
+class IRReceiver : public rtos::task<> {
     int pulses[100][2];
     int currentpulse = 0;
     bool debug = 0;
@@ -25,10 +25,10 @@ class IR_Receiver : public rtos::task<> {
     void main();
 
 public:
-    IR_Receiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name) :
+    IRReceiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name) :
             task(priority, name),
             tsop_signal(tsop_signal),
-            interval( this, RESOLUTION, "ir_interval")
+            interval( this, "IRReceiver_interval")
     {};
 
 };

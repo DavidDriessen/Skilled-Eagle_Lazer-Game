@@ -1,7 +1,8 @@
+#include "bmptk.h"
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "IR_Receiver.hpp"
-#include "IR_Zender.hpp"
+#include "IRReceiver.hpp"
+#include "IRSender.hpp"
 
 int main() {
     hwlib::wait_ms(500);
@@ -13,8 +14,8 @@ int main() {
     auto ir = hwlib::target::d2_36kHz();
     auto tsop_signal = target::pin_in(target::pins::d8);
 
-    auto receiver = IR_Receiver(tsop_signal, 0, "receiver");
-    auto zender = IR_Zender(ir, 1, "zender");
+    auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver");
+    auto zender = IRSender(ir, 1, "IRSender");
 
     rtos::run();
     return 0;

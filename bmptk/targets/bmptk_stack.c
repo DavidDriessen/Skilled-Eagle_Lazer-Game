@@ -14,16 +14,17 @@
 
 #include <stdlib.h>
 
-unsigned char bmptk_stack[ STACK_SIZE ] 
+volatile unsigned char bmptk_stack[ STACK_SIZE ] 
    __attribute__ (( section( ".bmptk_stack" )));
    
-unsigned char bmptk_stack_beyond
-    __attribute__ (( section( ".bmptk_stack" )));
+//unsigned char bmptk_stack_beyond
+//   __attribute__ (( section( ".bmptk_stack" )));
    
 size_t bmptk_stack_size(){
    return STACK_SIZE;   
 }   
 
+// the stack is part of the bss, so it is initialized to 0's
 size_t bmptk_stack_free(){
    for( size_t n = 0; n < STACK_SIZE; ++n ){
       if( bmptk_stack[ n ] != 0x00 ){
@@ -34,5 +35,5 @@ size_t bmptk_stack_free(){
 }
 
 size_t bmptk_stack_used(){
-   return STACK_SIZE - bmptk_stack_free();   
+   return bmptk_stack_size() - bmptk_stack_free();   
 }   
