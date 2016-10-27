@@ -1,27 +1,40 @@
 @startuml
 
-class IrReceiver{
+class LCD <<boundery>> {
++test()
++push(data)
+}
+class IrSensor <<boundery>> {
+}
+class IrLed <<boundery>> {
+}
+class Button <<boundery>> {
++get()
+}
+class Speaker <<boundery>> {
++play(sound, duration)
+}
+
+class PcProxy <<proxy>> {
+}
+
+class IrReceiver <<controller>> {
 -dataToSend
 +receive()
 }
-class IrSender{
+class IrSender <<controller>> {
 -receivedData
 +receive()
 -decode()
 }
-class LCD {
-+test()
-+push(data)
+class SoundController <<controller>> {
 }
-class Sound{
-+start(sound, duration)
+class DisplayController <<controller>> {
 }
-class Fire{
+class ButtonController <<controller>> {
 -getButton()
 }
-class Console{
-}
-class DataController{
+class GameController <<controller>> {
 -score
 -wapen
 -gameMode
@@ -31,27 +44,34 @@ class DataController{
 +setGameMode()
 +getGameMode()
 }
-class GameTimeController{
+class GameTimeController <<controller>> {
 +start()
 +pause()
 +resume()
 +stop()
 }
 
-enum Wapens
-enum GameModes
+enum Wapens <<entity>>
+enum GameModes <<entity>>
+
+GameController <-.  Wapens: <include>
+GameController <-. GameModes: <include>
+
+LCD <-. DisplayController: <include>
+IrSensor <-. IrReceiver: <include>
+IrLed <-. IrSender: <include>
+Button <-. ButtonController: <include>
+Speaker <-. SoundController: <include>
+
+IrReceiver --> GameController: <channel>
+DisplayController <-- GameController: <pool>
+IrSender <- GameController: <pool>
+GameController <- ButtonController: <flag>
+GameController <-- GameTimeController: <flag>
+GameController <-- SoundController: <flag>
+GameController --> PcProxy
 
 
-GameModes ..> DataController: <include>
-Wapens ..> DataController: <include>
-Fire <.. DataController: <include>
-Console <.. DataController: <include>
-LCD <-- DataController
-GameTimeController <.. DataController: <include>
-GameTimeController --> LCD
-GameTimeController --|> Fire
-IrReceiver --> DataController
-Sound <-- Fire
-IrSender <-- Fire
+
 
 @enduml
