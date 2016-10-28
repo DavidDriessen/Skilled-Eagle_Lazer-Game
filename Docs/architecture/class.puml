@@ -5,8 +5,10 @@ class LCD <<boundery>> {
 +push(data)
 }
 class IrSensor <<boundery>> {
++get()
 }
 class IrLed <<boundery>> {
++send(byte data[2])
 }
 class Button <<boundery>> {
 +get()
@@ -15,42 +17,68 @@ class Speaker <<boundery>> {
 +play(sound, duration)
 }
 
-class PcProxy <<proxy>> {
+class DisplayController <<controller>> {
+-LCD dysplay
++setTime(int time)
++setScore(int scaore)
++setWapen(int wapen)
++setPlayerId(int id)
 }
-
 class IrReceiver <<controller>> {
--dataToSend
-+receive()
+-IrSensor ir
+-RegisterController register
+-InitController init
+-GameController game
 }
 class IrSender <<controller>> {
--receivedData
-+receive()
--decode()
-}
-class SoundController <<controller>> {
-}
-class DisplayController <<controller>> {
+-IrLed ir
++fire(byte data)
 }
 class ButtonController <<controller>> {
--getButton()
+-Button btn
++setPlayerData(byte data[2])
++setWapen(wapen)
++disable()
++enable()
 }
+class SoundController <<controller>> {
++fire()
+}
+
+class PcProxy <<proxy>> {
+-GameController game
+}
+
 class GameController <<controller>> {
--score
+-GameTimeController timer
+-ButtonController btn
+-score[]
 -wapen
 -gameMode
-+addScore(score)
+
++startGame(int time)
++stopGame()
+
 +setWapen(wapen)
 +getWapen()
-+setGameMode()
++setGameMode(mode)
 +getGameMode()
+
++shot(score)
++disable()
++enable()
 }
 class GameTimeController <<controller>> {
-+start()
+-GameController game
+-DisplayController display
++start(int time)
 +stop()
 }
 class InitController <<controller>> {
+-GameController game
 }
 class RegisterController <<controller>> {
+-GameController game
 }
 
 enum Wapens <<entity>>
