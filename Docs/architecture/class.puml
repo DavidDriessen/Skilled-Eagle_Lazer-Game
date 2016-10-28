@@ -46,32 +46,39 @@ class GameController <<controller>> {
 }
 class GameTimeController <<controller>> {
 +start()
-+pause()
-+resume()
 +stop()
+}
+class InitController <<controller>> {
+}
+class RegisterController <<controller>> {
 }
 
 enum Wapens <<entity>>
 enum GameModes <<entity>>
 
-GameController <-.  Wapens: <include>
-GameController <-. GameModes: <include>
+LCD <-- DisplayController
+IrSensor <-- IrReceiver
+IrLed <-- IrSender
+Button <- ButtonController
+Speaker <-- SoundController
 
-LCD <-. DisplayController: <include>
-IrSensor <-. IrReceiver: <include>
-IrLed <-. IrSender: <include>
-Button <-. ButtonController: <include>
-Speaker <-. SoundController: <include>
+IrReceiver --> GameController
+IrReceiver --> InitController
+IrReceiver --> RegisterController
 
-IrReceiver --> GameController: <channel>
-DisplayController <-- GameController: <pool>
-IrSender <- GameController: <pool>
-GameController <- ButtonController: <flag>
-GameController <-- GameTimeController: <flag>
-GameController <-- SoundController: <flag>
-GameController --> PcProxy
+InitController --> GameController
+RegisterController --> GameController
 
+GameController <-> GameTimeController
+DisplayController <-- GameTimeController
+DisplayController <-- GameController
 
+ButtonController <- GameController
+IrSender <-- ButtonController
+SoundController <-- ButtonController
 
+GameController -->  Wapens
+GameController --> GameModes
+GameController <-- PcProxy
 
 @enduml
