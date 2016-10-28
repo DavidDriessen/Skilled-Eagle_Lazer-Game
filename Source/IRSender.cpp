@@ -22,18 +22,18 @@ void IRSender::main() {
         for (int i = 0; i < 16; i++) {
             if (send[i]) {
                 ir.set(1);
-                interval.set(1600);
+                interval.set(SendRESOLUTION * 2);
                 wait(interval);
                 ir.set(0);
-                interval.set(800);
+                interval.set(SendRESOLUTION);
                 wait(interval);
             } else {
                 ir.set(1);
-                interval.set(800);
+                interval.set(SendRESOLUTION);
                 wait(interval);
 
                 ir.set(0);
-                interval.set(1600);
+                interval.set(SendRESOLUTION * 2);
                 wait(interval);
             }
         }

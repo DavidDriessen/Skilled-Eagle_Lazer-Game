@@ -8,6 +8,8 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
+#define SendRESOLUTION 1200 * 4 //200
+
 class IRSender : public rtos::task<> {
     hwlib::pin_out &ir;
     rtos::timer interval;

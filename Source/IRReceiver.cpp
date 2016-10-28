@@ -4,30 +4,31 @@
 
 #include "IRReceiver.hpp"
 
-void IRReceiver::printpulses(void)
-{
-    if (debug) {
-        hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
-        for (int i = 0; i < currentpulse; i++) {
-            hwlib::cout << pulses[i][0] * RESOLUTION;  //verwissel deze 0 en 1 om positie van high and low te wissellen
-            hwlib::cout << " usec, ";
-            hwlib::cout << pulses[i][1] * RESOLUTION;
-            hwlib::cout << " usec\n";
-        }
-    } else {
-        for (int i = 0; i < currentpulse; i++) {
-            if (pulses[i][1] * RESOLUTION > 900) {
-                hwlib::cout << "1";
-            } else {
-                hwlib::cout << "0";
-            }
-        }
-        hwlib::cout << "\n";
+void IRReceiver::printpulses(void) {
+#if debug == 2
+    hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
+    for (int i = 0; i < currentpulse; i++) {
+        hwlib::cout << pulses[i][0] * RESOLUTION;  //verwissel deze 0 en 1 om positie van high and low te wissellen
+        hwlib::cout << " usec, ";
+        hwlib::cout << pulses[i][1] * RESOLUTION;
+        hwlib::cout << " usec\n";
     }
+#elif debug == 1
+    for (int i = 0; i < currentpulse; i++) {
+        if (pulses[i][1] * RESOLUTION > 900) {
+            hwlib::cout << "1";
+        } else {
+            hwlib::cout << "0";
+        }
+    }
+    hwlib::cout << "\n";
+#elif debug == 0
+    display.ir((int **) pulses, currentpulse, RESOLUTION);
+#endif
 }
 
 void IRReceiver::main() {
-    while(1) {
+    while (1) {
         currentpulse = 0;
         while (currentpulse < 16) {
             // zet de timing variabelen op 0
