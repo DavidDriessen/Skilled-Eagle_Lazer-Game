@@ -16,6 +16,9 @@ class Button <<boundery>> {
 class Speaker <<boundery>> {
 +play(sound, duration)
 }
+class KeyPad <<boundery>> {
++get()
+}
 
 class DisplayController <<controller>> {
 -LCD dysplay
@@ -27,22 +30,29 @@ class DisplayController <<controller>> {
 class IrReceiver <<controller>> {
 -IrSensor ir
 -RegisterController register
--InitController init
 -GameController game
 }
 class IrSender <<controller>> {
 -IrLed ir
 +fire(byte data)
++command(command)
 }
 class ButtonController <<controller>> {
 -Button btn
+-IrSender ir
+-SoundController sound
 +setPlayerData(byte data[2])
 +setWapen(wapen)
 +disable()
 +enable()
 }
 class SoundController <<controller>> {
+-Speaker speaker
 +fire()
+}
+class KeyPadController <<controller>> {
+-KeyPad pad
+-InitController init
 }
 
 class PcProxy <<proxy>> {
@@ -75,7 +85,11 @@ class GameTimeController <<controller>> {
 +stop()
 }
 class InitController <<controller>> {
--GameController game
+-IrSender ir
++startGame()
++stopGame()
++setWapen(wapen)
++setTimae(int time)
 }
 class RegisterController <<controller>> {
 -GameController game
@@ -89,23 +103,25 @@ IrSensor <-- IrReceiver
 IrLed <-- IrSender
 Button <- ButtonController
 Speaker <-- SoundController
+KeyPad <-- KeyPadController
 
 IrReceiver --> GameController
-IrReceiver --> InitController
 IrReceiver --> RegisterController
-
-InitController --> GameController
 RegisterController --> GameController
 
 GameController <-> GameTimeController
 DisplayController <-- GameTimeController
 DisplayController <-- GameController
+'InitController --> GameController
+
+IrSender <-- ButtonController
+IrSender <-- InitController
+KeyPadController --> InitController
 
 ButtonController <- GameController
-IrSender <-- ButtonController
 SoundController <-- ButtonController
 
-GameController -->  Wapens
+GameController --> Wapens
 GameController --> GameModes
 GameController <-- PcProxy
 
