@@ -1,117 +1,116 @@
 @startuml
 
 class LCD <<boundery>> {
-+test()
-+push(data)
+    +test()
+    +push(data)
 }
 class IrSensor <<boundery>> {
-+get()
+    +get()
 }
 class IrLed <<boundery>> {
-+send(byte data[2])
+    +send(byte data[2])
 }
 class Button <<boundery>> {
-+get()
+    +get()
 }
 class Speaker <<boundery>> {
-+play(sound, duration)
+    +play(sound, duration)
 }
 class KeyPad <<boundery>> {
-+get()
+    +get()
 }
 
 class DisplayController <<controller>> {
--LCD dysplay
-+setTime(int time)
-+setScore(int scaore)
-+setWapen(int wapen)
-+setPlayerId(int id)
+    -LCD dysplay
+    +setTime(int time)
+    +setScore(int scaore)
+    +setWapen(int wapen)
+    +setPlayerId(int id)
 }
 class IrReceiver <<controller>> {
--IrSensor ir
--RegisterController register
--GameController game
+    -IrSensor ir
+    -RegisterController register
+    -GameController game
 }
 class IrSender <<controller>> {
--IrLed ir
-+fire(byte data)
-+command(command)
+    -IrLed ir
+    +fire(byte data)
+    +command(command)
 }
 class ButtonController <<controller>> {
--Button btn
--IrSender ir
--SoundController sound
-+setPlayerData(byte data[2])
-+setWapen(wapen)
-+disable()
-+enable()
+    -Button btn
+    -IrSender ir
+    -SoundController sound
+    +setPlayerData(byte data[2])
+    +setWapen(wapen)
+    +disable()
+    +enable()
 }
 class SoundController <<controller>> {
--Speaker speaker
-+fire()
+    -Speaker speaker
+    +fire()
 }
 class KeyPadController <<controller>> {
--KeyPad pad
--InitController init
+    -KeyPad pad
+    -InitController init
 }
 
 class PcProxy <<proxy>> {
--GameController game
+    -GameController game
 }
 
 class GameController <<controller>> {
--GameTimeController timer
--ButtonController btn
--score[]
--wapen
--gameMode
+    -ButtonController btn
+    -score[]
+    -wapen
+    -gameMode
 
-+startGame(int time)
-+stopGame()
+    +getWapen()
+    +getGameMode()
 
-+setWapen(wapen)
-+getWapen()
-+setGameMode(mode)
-+getGameMode()
-
-+shot(score)
-+disable()
-+enable()
+    +shot(score)
+    +disable()
+    +enable()
 }
 class GameTimeController <<controller>> {
--GameController game
--DisplayController display
-+start(int time)
-+stop()
+    -GameController game
+    -DisplayController display
+    +start(int time)
+    +stop()
 }
 class InitController <<controller>> {
--IrSender ir
-+startGame()
-+stopGame()
-+setWapen(wapen)
-+setTimae(int time)
+    -IrSender ir
+    +startGame()
+    +stopGame()
+    +setWapen(wapen)
+    +setTimae(int time)
 }
 class RegisterController <<controller>> {
--GameController game
+    -GameTimeController timer
+    +startGame(int time)
+    +stopGame()
+
+    +setWapen(wapen)
+    +setGameMode(mode)
 }
 
 enum Wapens <<entity>>
 enum GameModes <<entity>>
 
-LCD <-- DisplayController
+DisplayController -> LCD
 IrSensor <-- IrReceiver
 IrLed <-- IrSender
 Button <- ButtonController
 Speaker <-- SoundController
 KeyPad <-- KeyPadController
 
-IrReceiver --> GameController
 IrReceiver --> RegisterController
-RegisterController --> GameController
+RegisterController --|> GameController
 
-GameController <-> GameTimeController
-DisplayController <-- GameTimeController
-DisplayController <-- GameController
+RegisterController -> GameTimeController
+GameTimeController --> GameController
+GameTimeController --> DisplayController
+GameController -> DisplayController
 'InitController --> GameController
 
 IrSender <-- ButtonController
