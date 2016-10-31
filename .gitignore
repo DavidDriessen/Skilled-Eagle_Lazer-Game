@@ -5,4 +5,4 @@
 *.elf
 *.ld
 *.map
-Docs/.~lock.RTOS onderzoek Simba.doc#
+!*.exe
