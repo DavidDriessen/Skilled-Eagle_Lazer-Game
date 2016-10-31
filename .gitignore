@@ -5,4 +5,3 @@
 *.elf
 *.ld
 *.map
-!*.exe
