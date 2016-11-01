@@ -16,7 +16,7 @@ void DisplayController::test(char *c) {
     data.write(c);
 }
 
-void DisplayController::ir(int **pulses, int currentpulse, int RESOLUTION) {
+void DisplayController::ir(int **pulses, int currentpulse) {
     for (int i = 0; i < currentpulse; i++) {
         if (pulses[i][1] > 5) {
             hwlib::cout << "1";

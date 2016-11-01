@@ -4,7 +4,6 @@
 
 #include "IRReceiver.hpp"
 #include "IRSender.hpp"
-#include "DisplayController.hpp"
 
 int main() {
     hwlib::wait_ms(500);

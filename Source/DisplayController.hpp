@@ -21,7 +21,7 @@ public:
             data(this, "Displaybuffer") {};
 
     void test(char *c);
-    void ir(int **pulses, int currentpulse, int RESOLUTION);
+    void ir(int **pulses, int currentpulse);
 };
 
 #endif //SKILLED_EAGLE_DISPLAYCONTROLLER_H

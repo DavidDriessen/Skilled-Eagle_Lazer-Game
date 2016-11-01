@@ -23,7 +23,7 @@ void IRReceiver::printpulses(void) {
     }
     hwlib::cout << "\n";
 #elif debug == 0
-    display.ir((int **) pulses, currentpulse, RESOLUTION);
+    display.ir((int **) pulses, currentpulse);
 #endif
 }
 
