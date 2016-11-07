@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := IRReceiver.cpp IRSender.cpp DisplayController.cpp
+SOURCES := IRReceiver.cpp IRSender.cpp DisplayController.cpp KeyPadController.cpp InitController.cpp
 
 # header files in this project
-HEADERS := IRReceiver.hpp IRSender.hpp DisplayController.hpp
+HEADERS := IRReceiver.hpp IRSender.hpp DisplayController.hpp KeyPadController.hpp InitController.hpp
 
 # other places to look for files for this project
 SEARCH  := 
