@@ -33,5 +33,5 @@ add_custom_target(BMPTK_clean_upload_${PROJECT_NAME}
         COMMENT "Uploading ${PROJECT_NAME}")
 
 
-set(SOURCE_FILES Source/main.cpp Source/IRReceiver.cpp Source/IRReceiver.hpp Source/IRSender.cpp Source/IRSender.hpp Source/DisplayController.cpp Source/DisplayController.hpp)
+set(SOURCE_FILES Source/main.cpp Source/IRReceiver.cpp Source/IRReceiver.hpp Source/IRSender.cpp Source/IRSender.hpp Source/DisplayController.cpp Source/DisplayController.hpp Source/KeyPadController.cpp Source/KeyPadController.hpp Source/InitController.cpp Source/InitController.hpp)
 add_executable(Skilled_Eagle ${SOURCE_FILES})
