@@ -31,8 +31,13 @@ int main() {
     auto init     = InitController();
     //end key
 
+    //start speaker
+    auto lsp = target::pin_out( target::pins::d7 );
+    auto Speaker = SpeakerController(lsp);
+    //end speaker
+
     //ir start
-    auto ir = hwlib::target::d2_36kHz();
+    auto ir = target::d2_36kHz();
     auto tsop_signal = target::pin_in(target::pins::d8);
     //end ir
 
@@ -40,7 +45,7 @@ int main() {
     auto display = DisplayController(2, "DisplayController");
     auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", display);
     auto zender = IRSender(ir, 1, "IRSender");
-    auto keypad = KeyPadController(4, "KeyPadController", init, key);
+    auto keypad = KeyPadController(4, "KeyPadController", init, key, Speaker);
 
 
     rtos::run();
