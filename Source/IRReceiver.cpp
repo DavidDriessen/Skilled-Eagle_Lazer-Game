@@ -15,7 +15,8 @@ void IRReceiver::printpulses(void) {
     }
 #elif debug == 1
     for (int i = 0; i < currentpulse; i++) {
-        if (pulses[i][1] * RESOLUTION > 900) {
+        //if (pulses[i][1] > pulses[i + 1][0]) {
+        if (pulses[i][1] * RESOLUTION > 1000) {
             hwlib::cout << "1";
         } else {
             hwlib::cout << "0";
@@ -30,7 +31,7 @@ void IRReceiver::printpulses(void) {
 void IRReceiver::main() {
     while (1) {
         currentpulse = 0;
-        while (currentpulse < 16) {
+        while (currentpulse < 17) {
             // zet de timing variabelen op 0
             highpulse = lowpulse = 0;
             // terwijl het signaal uit de decoder laag is
@@ -42,6 +43,7 @@ void IRReceiver::main() {
                 // print de pulsen en return
                 if ((highpulse >= MAXPULSE)) {
                     currentpulse = 0;
+                    break;
                 }
             }
             if(highpulse <= MINPULSE){
@@ -58,6 +60,7 @@ void IRReceiver::main() {
                 // print de pulsen en return
                 if ((lowpulse >= MAXPULSE)) {
                     currentpulse = 0;
+                    break;
                 }
             }
             if(lowpulse <= MINPULSE){

@@ -11,7 +11,6 @@ void KeyPadController::main() {
     int a_condition = 0;
     int a_input_array_size = 0;
 
-
     for(;;)
     {
         cout << "\nA: Set player\nB: Weapon power selector\nC: End command\n\n";

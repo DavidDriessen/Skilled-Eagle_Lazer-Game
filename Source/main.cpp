@@ -42,7 +42,6 @@ int main() {
     auto zender = IRSender(ir, 1, "IRSender");
     auto keypad = KeyPadController(4, "KeyPadController", init, key);
 
-
     rtos::run();
     return 69;
 }

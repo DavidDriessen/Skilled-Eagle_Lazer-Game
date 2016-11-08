@@ -9,10 +9,10 @@
 #include "rtos.hpp"
 #include "DisplayController.hpp"
 
-#define RESOLUTION 1200 //200
-#define MAXPULSE 10
-#define MINPULSE 2
-#define debug 0
+#define RESOLUTION 200 //1200
+#define MAXPULSE 17800 / RESOLUTION
+#define MINPULSE 400 / RESOLUTION
+#define debug 1
 
 class IRReceiver : public rtos::task<> {
     int pulses[100][2];
