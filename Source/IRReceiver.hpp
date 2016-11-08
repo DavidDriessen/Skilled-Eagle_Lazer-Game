@@ -18,7 +18,7 @@ class IRReceiver : public rtos::task<> {
     int pulses[100][2];
     int currentpulse = 0;
     int highpulse, lowpulse;
-    hwlib::pin_in &tsop_signal;
+    hwlib::pin_in &ir;
     rtos::timer interval;
 
     DisplayController &display;
@@ -30,7 +30,7 @@ class IRReceiver : public rtos::task<> {
 public:
     IRReceiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name, DisplayController &display) :
             task(priority, name),
-            tsop_signal(tsop_signal),
+            ir(tsop_signal),
             interval(this, "IRReceiver_interval"),
             display(display) {};
 

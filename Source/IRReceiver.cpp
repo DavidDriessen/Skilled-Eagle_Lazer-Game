@@ -34,35 +34,33 @@ void IRReceiver::main() {
             // zet de timing variabelen op 0
             highpulse = lowpulse = 0;
             // terwijl het signaal uit de decoder laag is
-            while (tsop_signal.get() == 0) {
+            while (ir.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
-                if (highpulse >= MAXPULSE) {
+                if ((highpulse >= MAXPULSE)) {
                     currentpulse = 0;
                 }
             }
-            if (highpulse < MINPULSE) {
+            if(highpulse <= MINPULSE){
                 currentpulse = 0;
             }
             // sla de pulse op in het pulse array
             pulses[currentpulse][0] = highpulse;
             // terwijl het signaal uit de decoder hoog is
-            while (tsop_signal.get() == 1) {
+            while (ir.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
-                if (lowpulse >= MAXPULSE) {
+                if ((lowpulse >= MAXPULSE)) {
                     currentpulse = 0;
                 }
             }
-            if (lowpulse < MINPULSE) {
+            if(lowpulse <= MINPULSE){
                 currentpulse = 0;
             }
             // sla de pulse op in het pulse array
