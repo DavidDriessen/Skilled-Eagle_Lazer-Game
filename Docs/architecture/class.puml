@@ -39,8 +39,7 @@ class IrSender <<controller>> {
 }
 class ButtonController <<controller>> {
     -Button btn
-    -IrSender ir
-    -SoundController sound
+    -GameController game
     +setPlayerData(byte data[2])
     +setWapen(wapen)
     +disable()
@@ -60,7 +59,9 @@ class PcProxy <<proxy>> {
 }
 
 class GameController <<controller>> {
-    -ButtonController btn
+    -IrSender ir
+    -SoundController sound
+    -DisplayController display
     -score[]
     -wapen
     -gameMode
@@ -80,6 +81,7 @@ class GameTimeController <<controller>> {
 }
 class InitController <<controller>> {
     -IrSender ir
+    -DisplayController display
     +startGame()
     +stopGame()
     +setWapen(wapen)
@@ -98,30 +100,36 @@ enum Wapens <<entity>>
 enum GameModes <<entity>>
 
 DisplayController -> LCD
-IrSensor <-- IrReceiver
-IrLed <-- IrSender
-Button <- ButtonController
+'IrSensor <-- IrReceiver
+'IrLed <-- IrSender
+'Button <- ButtonController
 Speaker <-- SoundController
 KeyPad <-- KeyPadController
 
 IrReceiver --> RegisterController
 RegisterController --|> GameController
 
-RegisterController -> GameTimeController
+RegisterController --> GameTimeController
 GameTimeController --> GameController
 GameTimeController --> DisplayController
 GameController -> DisplayController
-'InitController --> GameController
 
-IrSender <-- ButtonController
-IrSender <-- InitController
+IrSender <-- GameController
+'InitController -> IrSender
 KeyPadController --> InitController
 
-ButtonController <- GameController
-SoundController <-- ButtonController
+ButtonController -> GameController
+SoundController <-- GameController
 
 GameController --> Wapens
 GameController --> GameModes
 GameController <-- PcProxy
+
+''init => display
+IrLed <- IrSender
+DisplayController <-- InitController
+InitController --> IrSender
+IrSensor <- IrReceiver
+Button <-- ButtonController
 
 @enduml
