@@ -8,26 +8,26 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "enums.hpp"
+#include "Weapons.hpp"
 #include "RegisterController.hpp"
 
 class GameController : public RegisterController, public rtos::task<>{
     private:
         void main();
         int & score;
-        Weapon weapon;
-        Gamemode gamemode;
+        Weapons weapon;
+        Gamemodes gamemode;
         rtos::flag game_flag;
     public:
         GameController(unsigned int priority,
                        const char *name,
                        int & score,
-                       Weapon weapon,
-                       Gamemode gamemode,
+                       Weapons weapon,
+                       Gamemodes gamemode
         ):
                 task(priority, name), score(score), weapon(weapon), gamemode(gamemode), game_flag(this, "game_flag"){};
-        Weapon getWeapon();
-        Gamemode getGamemode();
+        Weapons getWeapon();
+        Gamemodes getGamemode();
         void shot(int score);
         void disable();
         void enable();

@@ -8,8 +8,8 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "enums.hpp"
 #include "GameTimeController.hpp"
+#include "Weapons.hpp"
 
  class RegisterController{
     private:
@@ -22,9 +22,9 @@
 
         void stopGame();
 
-        virtual void setWeapon(Weapon) = 0;
+        virtual void setWeapon(Weapons) = 0;
 
-        virtual void setGamemode(Gamemode) = 0;
+        virtual void setGamemode(Gamemodes) = 0;
 };
 
 
