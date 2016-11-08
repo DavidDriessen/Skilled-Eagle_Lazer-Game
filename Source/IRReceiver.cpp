@@ -30,6 +30,7 @@ void IRReceiver::printpulses(void) {
 void IRReceiver::main() {
     while (1) {
         currentpulse = 0;
+
         while (currentpulse < 16) {
             // zet de timing variabelen op 0
             highpulse = lowpulse = 0;

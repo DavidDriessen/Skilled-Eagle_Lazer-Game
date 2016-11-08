@@ -50,5 +50,5 @@ set(SOURCE_FILES
         Source/RegisterController.cpp Source/RegisterController.hpp
         Source/GameController.cpp Source/GameController.hpp
         Source/GameTimeController.cpp Source/GameTimeController.hpp
-        )
+        Source/Gamemodes.hpp)
 add_executable(Skilled_Eagle ${SOURCE_FILES})
