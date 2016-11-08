@@ -10,6 +10,7 @@
 #include "bmptk.h"
 #include "InitController.hpp"
 #include <stdlib.h>
+#include "Weapons.hpp"
 
 using namespace hwlib;
 

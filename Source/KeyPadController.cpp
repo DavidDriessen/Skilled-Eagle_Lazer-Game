@@ -50,29 +50,31 @@ void KeyPadController::main() {
             cout << "Welk wapen wilt u gebruiken ?\n";
 
 
-            cout << "1: AN-94\n";
-            cout << "2: MSMC\n";
-            cout << "3: Remington 870 MCS\n";
-            cout << "4: DSR 50\n";
-            cout << "5: PDW-57\n";
-            cout << "6: Scar-H\n";
-            cout << "7: BALLISTA\n";
-            cout << "8: Peacekeeper\n";
-            cout << "9: M27\n";
+            cout << static_cast<int>(Weapons::AK47)     << "AK47"   << "\n";
+            cout << static_cast<int>(Weapons::M9)       << "M9"     << "\n";
+            cout << static_cast<int>(Weapons::MP5)      << "MP%"    << "\n";
+            cout << static_cast<int>(Weapons::UZI)      << "UZI"    << "\n";
+            cout << static_cast<int>(Weapons::PARKER)   << "PARKER" << "\n";
+            cout << static_cast<int>(Weapons::IPOD)     << "IPOD"   << "\n";
+            cout << static_cast<int>(Weapons::RPG)      << "RPG"    << "\n";
+            cout << static_cast<int>(Weapons::TIMMY)    << "TIMMY"  << "\n";
+            cout << static_cast<int>(Weapons::JIMMY)    << "JIMMY"  << "\n";
 
             cout << "\n> ";
 
             auto t = keypad.getc();
 
-            if(t=='1'){cout << "AN-94\n";}
-            if(t=='2'){cout << "MSMC\n";}
-            if(t=='3'){cout << "Remington 870 MCS\n";}
-            if(t=='4'){cout << "DSR 50\n";}
-            if(t=='5'){cout << "PDW-57\n";}
-            if(t=='6'){cout << "Scar-H\n";}
-            if(t=='7'){cout << "BALLISTA\n";}
-            if(t=='8'){cout << "Peacekeeper\n";}
-            if(t=='9'){cout << "M27\n";}
+
+
+            if(t==static_cast<int>(Weapons::AK47)){cout << "AN-94\n";}
+            if(t==static_cast<int>(Weapons::M9)){cout << "MSMC\n";}
+            if(t==static_cast<int>(Weapons::MP5)){cout << "Remington 870 MCS\n";}
+            if(t==static_cast<int>(Weapons::UZI)){cout << "DSR 50\n";}
+            if(t==static_cast<int>(Weapons::PARKER)){cout << "PDW-57\n";}
+            if(t==static_cast<int>(Weapons::IPOD)){cout << "Scar-H\n";}
+            if(t==static_cast<int>(Weapons::RPG)){cout << "BALLISTA\n";}
+            if(t==static_cast<int>(Weapons::TIMMY)){cout << "Peacekeeper\n";}
+            if(t==static_cast<int>(Weapons::JIMMY)){cout << "M27\n";}
         }
 
         if(c=='C'){cout << "Ping\n";}
