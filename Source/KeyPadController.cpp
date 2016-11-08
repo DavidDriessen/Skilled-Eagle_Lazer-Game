@@ -10,6 +10,9 @@ void KeyPadController::main() {
     int numbers[100];
     int a_condition = 0;
     int a_input_array_size = 0;
+    int player=1;
+    int weapon=0;
+
 
     for(;;)
     {
@@ -40,7 +43,9 @@ void KeyPadController::main() {
                 wait(KeyTimer);
             }
 
-            cout << "\nU bent speler: " << array_to_intger(numbers, a_input_array_size) <<"\n";
+            player = array_to_intger(numbers, a_input_array_size);
+            cout << "\nU bent speler: " << player <<"\n";
+
 
         }
 
@@ -49,31 +54,32 @@ void KeyPadController::main() {
             cout << "Welk wapen wilt u gebruiken ?\n";
 
 
-            cout << static_cast<int>(Weapons::AK47)     << "AK47"   << "\n";
-            cout << static_cast<int>(Weapons::M9)       << "M9"     << "\n";
-            cout << static_cast<int>(Weapons::MP5)      << "MP%"    << "\n";
-            cout << static_cast<int>(Weapons::UZI)      << "UZI"    << "\n";
-            cout << static_cast<int>(Weapons::PARKER)   << "PARKER" << "\n";
-            cout << static_cast<int>(Weapons::IPOD)     << "IPOD"   << "\n";
-            cout << static_cast<int>(Weapons::RPG)      << "RPG"    << "\n";
-            cout << static_cast<int>(Weapons::TIMMY)    << "TIMMY"  << "\n";
-            cout << static_cast<int>(Weapons::JIMMY)    << "JIMMY"  << "\n";
+            cout << static_cast<int>(Weapons::AK47)     << ". AK47"   << "\n";
+            cout << static_cast<int>(Weapons::M9)       << ". M9"     << "\n";
+            cout << static_cast<int>(Weapons::MP5)      << ". MP5"    << "\n";
+            cout << static_cast<int>(Weapons::UZI)      << ". UZI"    << "\n";
+            cout << static_cast<int>(Weapons::PARKER)   << ". PARKER" << "\n";
+            cout << static_cast<int>(Weapons::IPOD)     << ". IPOD"   << "\n";
+            cout << static_cast<int>(Weapons::RPG)      << ". RPG"    << "\n";
+            cout << static_cast<int>(Weapons::TIMMY)    << ". TIMMY"  << "\n";
+            cout << static_cast<int>(Weapons::JIMMY)    << ". JIMMY"  << "\n";
 
             cout << "\n> ";
 
             auto t = keypad.getc();
+            weapon = t -48;
+            cout << weapon << "\n";
 
 
-
-            if(t==static_cast<int>(Weapons::AK47)){cout << "AN-94\n";}
-            if(t==static_cast<int>(Weapons::M9)){cout << "MSMC\n";}
-            if(t==static_cast<int>(Weapons::MP5)){cout << "Remington 870 MCS\n";}
-            if(t==static_cast<int>(Weapons::UZI)){cout << "DSR 50\n";}
-            if(t==static_cast<int>(Weapons::PARKER)){cout << "PDW-57\n";}
-            if(t==static_cast<int>(Weapons::IPOD)){cout << "Scar-H\n";}
-            if(t==static_cast<int>(Weapons::RPG)){cout << "BALLISTA\n";}
-            if(t==static_cast<int>(Weapons::TIMMY)){cout << "Peacekeeper\n";}
-            if(t==static_cast<int>(Weapons::JIMMY)){cout << "M27\n";}
+            if(t==static_cast<char>(Weapons::AK47)  +48){cout << "AN-94\n";}
+            if(t==static_cast<char>(Weapons::M9)    +48){cout << "MSMC\n";}
+            if(t==static_cast<char>(Weapons::MP5)   +48){cout << "Remington 870 MCS\n";}
+            if(t==static_cast<char>(Weapons::UZI)   +48){cout << "DSR 50\n";}
+            if(t==static_cast<char>(Weapons::PARKER)+48){cout << "PDW-57\n";}
+            if(t==static_cast<char>(Weapons::IPOD)  +48){cout << "Scar-H\n";}
+            if(t==static_cast<char>(Weapons::RPG)   +48){cout << "BALLISTA\n";}
+            if(t==static_cast<char>(Weapons::TIMMY) +48){cout << "Peacekeeper\n";}
+            if(t==static_cast<char>(Weapons::JIMMY) +48){cout << "M27\n";}
         }
 
         if(c=='C'){cout << "Ping\n";}
