@@ -11,6 +11,7 @@
 #include "InitController.hpp"
 #include <stdlib.h>
 #include "Weapons.hpp"
+#include "SpeakerController.hpp"
 
 using namespace hwlib;
 
@@ -19,14 +20,14 @@ private:
     InitController & init;
     hwlib::istream & keypad;
     rtos::timer KeyTimer;
-
+    SpeakerController & speak;
 
 
     void main();
 
 public:
-    KeyPadController(unsigned int priority, const char *name, InitController &init, hwlib::istream & pad) :
-            task(priority, name), init(init), keypad(pad), KeyTimer(this, "KeyPadTimer") {};
+    KeyPadController(unsigned int priority, const char *name, InitController &init, hwlib::istream & pad, SpeakerController & speak) :
+            task(priority, name), init(init), keypad(pad), KeyTimer(this, "KeyPadTimer"), speak(speak) {};
 
     int array_to_intger(int *content, int array_size);
 };

@@ -71,8 +71,21 @@ void KeyPadController::main() {
             cout << weapon << "\n";
 
 
-            if(t==static_cast<char>(Weapons::AK47)  +48){cout << "AN-94\n";}
-            if(t==static_cast<char>(Weapons::M9)    +48){cout << "MSMC\n";}
+            if(t==static_cast<char>(Weapons::AK47)  +48) {
+                cout << "AN-94\n";
+                for (int i = 0; i < 3; i++)
+                {
+                    speak.click();
+                    hwlib::wait_ms(200);
+                }
+            }
+            if(t==static_cast<char>(Weapons::M9)    +48){
+                cout << "AN-94\n";
+                for (int i = 0; i < 1; i++)
+                {
+                    speak.peew();
+                    hwlib::wait_ms(100);}
+            }
             if(t==static_cast<char>(Weapons::MP5)   +48){cout << "Remington 870 MCS\n";}
             if(t==static_cast<char>(Weapons::UZI)   +48){cout << "DSR 50\n";}
             if(t==static_cast<char>(Weapons::PARKER)+48){cout << "PDW-57\n";}
