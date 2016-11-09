@@ -6,6 +6,7 @@
 #include "IRSender.hpp"
 #include "KeyPadController.hpp"
 #include "InitController.hpp"
+#include "GameTimeController.hpp"
 
 int main() {
     hwlib::wait_ms(500);
@@ -42,10 +43,14 @@ int main() {
     //end ir
 
     //start rtos
-    auto display = DisplayController(2, "DisplayController");
-    auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", display);
+    auto display = DisplayController(2, "DisplayController", rtos::flag());
+    GameController *gameController = 0;
+    auto gameTimer = GameTimeController(4, "GameTimeController", gameController);
+    auto temp = GameController(gameTimer, 3, "GameController");
+    gameController = &temp;
+    auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
     auto zender = IRSender(ir, 1, "IRSender");
-    auto keypad = KeyPadController(4, "KeyPadController", init, key, Speaker);
+    auto keypad = KeyPadController(5, "KeyPadController", init, key, Speaker);
 
     rtos::run();
     return 69;

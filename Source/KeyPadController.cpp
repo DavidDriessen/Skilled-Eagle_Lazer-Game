@@ -44,7 +44,7 @@ void KeyPadController::main() {
             }
 
             player = array_to_intger(numbers, a_input_array_size);
-            cout << "\nU bent speler: " << player <<"\n";
+            //stuur naar init
 
 
         }
@@ -68,7 +68,7 @@ void KeyPadController::main() {
 
             auto t = keypad.getc();
             weapon = t -48;
-            cout << weapon << "\n";
+            //stuur naar init
 
 
             if(t==static_cast<char>(Weapons::AK47)  +48) {
@@ -95,7 +95,7 @@ void KeyPadController::main() {
             if(t==static_cast<char>(Weapons::JIMMY) +48){cout << "M27\n";}
         }
 
-        if(c=='C'){cout << "Ping\n";}
+        if(c=='C'){cout << "InitController.send()\n";}
         if(c=='D'){cout << "Pong\n";}
         KeyTimer.set(100*rtos::ms);
         wait(KeyTimer);

@@ -8,6 +8,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "DisplayController.hpp"
+#include "GameController.hpp"
 
 #define RESOLUTION 200 //1200
 #define MAXPULSE 17800 / RESOLUTION
@@ -23,18 +24,20 @@ class IRReceiver : public rtos::task<> {
     hwlib::pin_in &ir;
     rtos::timer interval;
 
-    DisplayController &display;
+    GameController & game;
 
+#if debug > 0
     void printpulses();
+#endif
 
     void main();
 
 public:
-    IRReceiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name, DisplayController &display) :
+    IRReceiver(hwlib::pin_in &tsop_signal, unsigned int priority, const char *name, GameController & game) :
             task(priority, name),
             ir(tsop_signal),
             interval(this, "IRReceiver_interval"),
-            display(display) {};
+            game(game) {};
 
 };
 

@@ -9,7 +9,7 @@ void GameTimeController::start(unsigned long time){
 
 void GameTimeController::stop(){
     gameTime.set(0);
-    gameController.disable();
+    gameController->disable();
 }
 void GameTimeController::main(){
     for(;;){

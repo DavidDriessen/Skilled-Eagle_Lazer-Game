@@ -48,7 +48,6 @@ set(SOURCE_FILES
         Source/KeyPadController.cpp Source/KeyPadController.hpp
         
         Source/InitController.cpp Source/InitController.hpp
-        Source/RegisterController.cpp Source/RegisterController.hpp
         Source/GameController.cpp Source/GameController.hpp
         Source/GameTimeController.cpp Source/GameTimeController.hpp
         Source/SpeakerController.cpp Source/SpeakerController.hpp)

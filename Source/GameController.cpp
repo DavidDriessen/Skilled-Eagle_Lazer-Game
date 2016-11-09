@@ -5,27 +5,35 @@
 #include "GameController.hpp"
 
 void GameController::main() {
-    wait(game_flag);
+    wait(game_start);
+    timer.start(gameTime);
+    //luisteren naar schieten
 
 }
 
-void GameController::shot(int score) {
+void GameController::shot(int &score) {
 
 }
 
 void GameController::enable() {
-    game_flag.set();
+    game_start.set();
 }
 
 void GameController::disable() {
-    game_flag.clear();
+    game_stop.set();
 }
 
-Gamemode GameController::getGamemode(){
+Gamemodes GameController::getGamemode(){
     return gamemode;
 }
 
-Weapon GameController::getWeapon() {
+Weapons GameController::getWeapon() {
     return weapon;
 }
+
+void GameController::setWeapon(Weapons weapon){
+
+}
+
+void GameController::setGamemode(Gamemodes gamemode) {}
 
