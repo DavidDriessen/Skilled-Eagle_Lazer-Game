@@ -42,7 +42,7 @@ public:
             interval(this, "IRReceiver_interval"),
             game(game) {};
 
-    void write_detected_ir(unsigned char a , unsigned char b, unsigned char c)
+    void write_detected_ir(unsigned char a , unsigned char b, unsigned char c);
     void decode_spelleider( unsigned char a , unsigned char b, unsigned char c);
     char check_time_bit(const char stream);
     void decode_stream(unsigned char streamA, unsigned char streamB);

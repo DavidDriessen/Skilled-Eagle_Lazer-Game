@@ -189,7 +189,7 @@ char IRReceiver::check_time_bit(const char stream){
 
 
 void IRReceiver::write_detected_ir(unsigned char a , unsigned char b, unsigned char c){
-    struct shot {
+    /*struct shot {
         char speler;
         char data;
         char control;
@@ -198,6 +198,8 @@ void IRReceiver::write_detected_ir(unsigned char a , unsigned char b, unsigned c
     shot_data.speler  = a;
     shot_data.data    = b;
     shot_data.control = c;
+    */
+
 
     //channel.write(shot_data);
 }
@@ -296,11 +298,5 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
 
 
     // hier komt iets van channel.write shot data
-<<<<<<< HEAD
-
-
-=======
-    hwlib::cout << list[0];
->>>>>>> 0ba3bf9d9cd0cff846c9baff72ba02d58c0eccd9
-
+    
 }
