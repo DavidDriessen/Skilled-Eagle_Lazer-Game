@@ -7,6 +7,7 @@
 #include "KeyPadController.hpp"
 #include "InitController.hpp"
 #include "GameTimeController.hpp"
+#include "ButtonController.hpp"
 
 int main() {
     hwlib::wait_ms(500);
@@ -51,10 +52,11 @@ int main() {
     //OLED stop
 
     //start rtos
-    auto display = DisplayController(2, "DisplayController", oled);
+    auto display = DisplayController(5, "DisplayController", oled);
     GameController *gameController = 0;
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController);
     auto temp = GameController(gameTimer, 3, "GameController");
+    auto button = ButtonController(2, "ButtonController", temp);
     gameController = &temp;
     auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
     auto zender = IRSender(ir, 1, "IRSender");

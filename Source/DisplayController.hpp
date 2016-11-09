@@ -16,6 +16,7 @@ class DisplayController : public rtos::task<> {
     int bullets = 0;
     int weapon = 0;
     int playerid = 0;
+    bool hitBool = false;
 
     rtos::pool<int> time_pool;
     rtos::pool<int> bullets_pool;
@@ -29,16 +30,11 @@ public:
     DisplayController(unsigned int priority, const char *name, hwlib::glcd_oled_buffered &display) :
             task(priority, name),
             display(display),
-            time_pool(),
-            bullets_pool(),
-            weapon_pool(),
-            playerid_pool(),
-            update(this)
-//            time_pool("Display_time_pool"),
-//            bullets_pool("Display_bullets_pool"),
-//            weapon_pool("Display_weapon_pool"),
-//            playerid_pool("Display_playerid_pool"),
-//            update(this, "Display_update")
+            time_pool("Display_time_pool"),
+            bullets_pool("Display_bullets_pool"),
+            weapon_pool("Display_weapon_pool"),
+            playerid_pool("Display_playerid_pool"),
+            update(this, "Display_update")
     {};
 
     void setTime(int time);
@@ -48,6 +44,10 @@ public:
     void setWeapon(Weapons weapon);
 
     void setPlayerId(int player);
+
+    void hit();
+
+    void hitClear();
 
 };
 

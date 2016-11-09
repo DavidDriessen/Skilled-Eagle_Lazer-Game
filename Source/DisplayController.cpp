@@ -24,18 +24,20 @@ void DisplayController::main() {
         top << "\f"
             << "Time: " << time << "\n"
             << "______________" << "\n";
+
+        if (hitBool) {
+            middel << "\f"
+                   << "  HIT" << "\n"
+                   << "" << "\n";
+        }
         middel << "\f"
-               << "  HIT" << "\n"
-               << "" << "\n";
+               << "             \n"
+               << "Mag: " << bullets << "\n";
         bottom << "\f"
                << "______________\n"
                << "ID: " << playerid << " Mag: " << bullets << "\n";
         display.flush();
-        time += 5;
-        bullets+=3;
-        playerid++;
-        hwlib::wait_ms(300);
-        //wait(update);
+        wait(update);
     }
 
 }
@@ -57,6 +59,16 @@ void DisplayController::setWeapon(Weapons weapon) {
 
 void DisplayController::setPlayerId(int player) {
     playerid_pool.write(player);
+    update.set();
+}
+
+void DisplayController::hit() {
+    hitBool = true;
+    update.set();
+}
+
+void DisplayController::hitClear() {
+    hitBool = false;
     update.set();
 }
 
