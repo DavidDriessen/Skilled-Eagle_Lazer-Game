@@ -2,8 +2,9 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
+#define Display_test
+
 #include "IRReceiver.hpp"
-#include "IRSender.hpp"
 #include "KeyPadController.hpp"
 #include "ButtonController.hpp"
 
