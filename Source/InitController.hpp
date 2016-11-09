@@ -8,9 +8,11 @@
 
 class InitController{
 private:
-
+    int player  = 0;
+    int weapon  = 0;
+    int command = 0;
 public:
-
+        InitController(){};
 
 };
 

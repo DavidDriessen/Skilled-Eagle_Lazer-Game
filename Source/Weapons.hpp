@@ -6,7 +6,7 @@
 #define SKILLED_EAGLE_WEAPONS_HPP
 
 
-enum class Weapons {
+enum class Weapons{
     AK47 = 1,
     M9 = 2,
     MP5 = 3,
@@ -17,8 +17,20 @@ enum class Weapons {
     PARKER = 8,
     JIMMY = 9
 
-};
 
+};
+char* weapon_names[] = {(char *) "AK47", (char *) "M9", (char *) "MP5", (char *) "UZI", (char *) "RPG", (char *) "IPOD",
+                        (char *) "TIMMY", (char *) "PARKER", (char *) "JIMMY"};
+
+char* GetWeaponName(int name, int size = sizeof(weapon_names)/sizeof(weapon_names[0]))
+{
+
+    if(name > size)
+    {
+        return (char *) "Unknow";
+    }
+    return weapon_names[name-1];
+}
 
 
 #endif //SKILLED_EAGLE_WEAPONS_HPP
