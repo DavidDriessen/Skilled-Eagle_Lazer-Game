@@ -30,6 +30,7 @@ void IRReceiver::printpulses(void) {
 #endif
 
 void IRReceiver::main() {
+    // lees de pulses in
     while (1) {
         currentpulse = 0;
         while (currentpulse < 17) {
@@ -39,9 +40,9 @@ void IRReceiver::main() {
             while (ir.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
-//                hwlib::wait_us(RESOLUTION);
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
+                //interval.set(RESOLUTION);
+                /wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((highpulse >= MAXPULSE)) {
@@ -58,9 +59,9 @@ void IRReceiver::main() {
             while (ir.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
-//                hwlib::wait_us(RESOLUTION);
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
+                //interval.set(RESOLUTION);
+                //wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((lowpulse >= MAXPULSE)) {
@@ -85,16 +86,10 @@ void IRReceiver::main() {
 }
 
 void IRReceiver::start_decoding_data(void) {
+    //start het bouwen van de 2 bytes
     unsigned char streamA;
     unsigned char streamB;
-/*
-    for (int i = 0; i < currentpulse; i++) {
-        hwlib::cout << pulses[i][0] * RESOLUTION;  //verwissel deze 0 en 1 om positie van high and low te wissellen
-        hwlib::cout << " usec, ";
-        hwlib::cout << pulses[i][1] * RESOLUTION;
-        hwlib::cout << " usec\n";
-    }
-*/
+
     for (int i = 0; i < currentpulse; i++) {
         if(i > 7) {
             if (i == 16) {
@@ -112,7 +107,7 @@ void IRReceiver::start_decoding_data(void) {
                     streamB = streamB << 1;
                 } else if (pulses[i][1] * RESOLUTION < 1000) {
                     //hwlib::cout << "0\n";
-                    streamA = streamA << 1;
+                    streamB = streamB << 1;
 
                 }
             }
@@ -144,9 +139,18 @@ void IRReceiver::start_decoding_data(void) {
 
 
     }
+    //start het decoderen van de 2 bytes
+    decode_stream(streamA, streamB);
+
+
+
+    //decode_spelleider(streamA , streamB);
+
 }
 
-void IRReceiver::decode_spelleider( char a , char b){
+
+
+void IRReceiver::decode_spelleider(unsigned char a , unsigned char b){
     if(a == 0 && b == 0){
         //printf("\ngame start  send\n");
         //start game commando ontvangen
@@ -179,10 +183,7 @@ char IRReceiver::check_time_bit(const char stream){
 
 void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
 
-    char speler =0;
-    char data = 0;
-    char control = 0;
-    char list[3];
+    //decodeer de 2 bytes
 
 
     for(int y = 1; y < 6; y++){
@@ -266,13 +267,12 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
         }
     }
 
-    //printf("\n%d control\n", control);
-    list[0] = speler;
-    list[1] = data;
-    list[2] = control;
+    //decodeer game master of speler
+    decode_spelleider(speler, data);
+
 
     // hier komt iets van channel.write shot data
 
-    return list;
+
 
 }
