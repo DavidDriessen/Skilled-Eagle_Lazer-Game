@@ -53,7 +53,7 @@ int main() {
     auto btn = target::pin_in(target::pins::d6);
 
     //start rtos
-    auto display = DisplayController(5, "DisplayController", oled);
+    auto display = DisplayController(6, "DisplayController", oled);
     GameController *gameController = 0;
     auto sender = IRSender(ir, 1, "IRSender");
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController);

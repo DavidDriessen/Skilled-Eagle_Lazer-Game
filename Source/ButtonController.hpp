@@ -12,6 +12,7 @@
 class ButtonController: public rtos::task<> {
     GameController &game;
     hwlib::pin_in &btn;
+    rtos::timer interval;
 
     void main();
 
@@ -19,7 +20,8 @@ public:
     ButtonController(unsigned int priority, const char *name, GameController &game, hwlib::pin_in &btn) :
             task(priority, name),
             game(game),
-            btn(btn) {};
+            btn(btn),
+            interval(this, "IRReceiver_interval") {};
 
 };
 
