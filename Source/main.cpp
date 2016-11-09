@@ -43,12 +43,15 @@ int main() {
     auto tsop_signal = target::pin_in(target::pins::d8);
     //end ir
 
+    //button
+    auto btn = target::pin_in( target::pins::d6 );
+
     //start rtos
     auto display = DisplayController(5, "DisplayController", oled);
     GameController *gameController = 0;
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController);
     auto temp = GameController(gameTimer, 3, "GameController");
-    auto button = ButtonController(2, "ButtonController", temp);
+    auto button = ButtonController(2, "ButtonController", temp, btn);
     gameController = &temp;
     auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
     auto zender = IRSender(ir, 1, "IRSender");
