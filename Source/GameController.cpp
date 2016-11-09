@@ -35,6 +35,7 @@ void GameController::main() {
                     irSender.fire(playerId, weapon);
                     speaker.shoot();
                 }
+                break;
             case State::shot:
                 if(evt == game_stop){
                     currentState = disabled;
@@ -43,6 +44,7 @@ void GameController::main() {
                     currentState = waiting;
                     display.hitClear();
                 }
+                break;
             case shoot:
                 if(evt == shot_flag)
                 {
@@ -56,6 +58,7 @@ void GameController::main() {
                 if(evt == game_stop){
                     currentState = disabled;
                 }
+                break;
         }
     }
 }
