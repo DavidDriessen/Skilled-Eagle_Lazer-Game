@@ -43,7 +43,7 @@ public:
     void decode_spelleider( char a , char b);
     char check_time_bit(const char stream);
     char * decode_stream(unsigned char streamA, unsigned char streamB);
-
+    void start_decoding_data(void);
 };
 
 
