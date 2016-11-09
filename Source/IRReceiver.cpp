@@ -39,9 +39,9 @@ void IRReceiver::main() {
             while (ir.get() == 1) {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
-//                hwlib::wait_us(RESOLUTION);
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
+//                interval.set(RESOLUTION);
+//                wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((highpulse >= MAXPULSE)) {
@@ -58,9 +58,9 @@ void IRReceiver::main() {
             while (ir.get() == 0) {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
-//                hwlib::wait_us(RESOLUTION);
-                interval.set(RESOLUTION);
-                wait(interval);
+                hwlib::wait_us(RESOLUTION);
+//                interval.set(RESOLUTION);
+//                wait(interval);
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((lowpulse >= MAXPULSE)) {
@@ -272,7 +272,6 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
     list[2] = control;
 
     // hier komt iets van channel.write shot data
-
-    return list;
+    hwlib::cout << list[0];
 
 }
