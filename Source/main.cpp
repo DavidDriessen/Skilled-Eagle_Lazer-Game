@@ -56,7 +56,7 @@ int main() {
     auto display = DisplayController(6, "DisplayController", oled);
     GameController *gameController = 0;
     auto sender = IRSender(ir, 1, "IRSender");
-    auto gameTimer = GameTimeController(4, "GameTimeController", gameController);
+    auto gameTimer = GameTimeController(4, "GameTimeController", gameController, display);
     auto temp = GameController(gameTimer, Speaker, display, sender, 3, "GameController");
     auto button = ButtonController(2, "ButtonController", temp, btn);
     gameController = &temp;
