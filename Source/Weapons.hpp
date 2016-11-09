@@ -6,7 +6,7 @@
 #define SKILLED_EAGLE_WEAPONS_HPP
 
 
-enum class Weapons {
+enum class Weapons{
     AK47 = 1,
     M9 = 2,
     MP5 = 3,
@@ -17,8 +17,11 @@ enum class Weapons {
     PARKER = 8,
     JIMMY = 9
 
-};
 
+
+
+};
+    char* GetWeaponName(int name);
 
 
 #endif //SKILLED_EAGLE_WEAPONS_HPP

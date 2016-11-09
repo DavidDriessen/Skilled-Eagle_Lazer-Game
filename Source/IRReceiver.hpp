@@ -13,7 +13,9 @@
 #define RESOLUTION 200 //1200
 #define MAXPULSE 17800 / RESOLUTION
 #define MINPULSE 400 / RESOLUTION
-#define debug 0
+#ifndef IRdebuglevel
+#define IRdebuglevel 0
+#endif
 
 class IRReceiver : public rtos::task<> {
     int pulses[100][2];
@@ -36,6 +38,11 @@ public:
             ir(tsop_signal),
             interval(this, "IRReceiver_interval"),
             game(game) {};
+
+
+    void decode_spelleider( char a , char b);
+    char check_time_bit(const char stream);
+    char * decode_stream(unsigned char streamA, unsigned char streamB);
 
 };
 
