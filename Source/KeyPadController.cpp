@@ -44,6 +44,7 @@ void KeyPadController::main() {
             }
 
             player = array_to_intger(numbers, a_input_array_size);
+            player = player;
             //stuur naar init
 
 
@@ -68,6 +69,7 @@ void KeyPadController::main() {
 
             auto t = keypad.getc();
             weapon = t -48;
+            weapon = weapon;
             //stuur naar init
 
 
