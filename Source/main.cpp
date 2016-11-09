@@ -43,14 +43,17 @@ int main() {
     //end ir
 
     //start rtos
+    auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
+    auto sender = IRSender(ir, 1, "IRSender");
+    auto keypad = KeyPadController(5, "KeyPadController", init, key, Speaker);
+    auto speaker = SpeakerController(lsp);
+
     auto display = DisplayController(2, "DisplayController", rtos::flag());
     GameController *gameController = 0;
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController);
-    auto temp = GameController(gameTimer, 3, "GameController");
+    auto temp = GameController(gameTimer, speaker, display, sender, 3, "GameController");
     gameController = &temp;
-    auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
-    auto zender = IRSender(ir, 1, "IRSender");
-    auto keypad = KeyPadController(5, "KeyPadController", init, key, Speaker);
+
 
     rtos::run();
     return 69;
