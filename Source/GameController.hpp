@@ -26,6 +26,7 @@ class GameController : public rtos::task<>{
         Weapons weapon;
         Gamemodes gamemode;
         int playerId;
+        int score[31];
         unsigned int gameTime;
         rtos::flag game_start;
         rtos::flag game_stop;
@@ -55,13 +56,14 @@ class GameController : public rtos::task<>{
                 shot_timer(this, "shot_timer"),
                 sound(this, "sound")
         {};
-        void shot(int &score);
+        void shot(int playerId, int weaponPower);
         void disable();
         void enable();
         Gamemodes getGamemode();
         Weapons getWeapon();
         void setWeapon(Weapons weapon);
         void setGamemode(Gamemodes gamemode);
+        void setPlayerId(int playerId);
 };
 
 

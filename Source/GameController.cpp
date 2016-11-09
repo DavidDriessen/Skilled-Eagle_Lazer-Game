@@ -68,10 +68,10 @@ void GameController::main() {
     }
 }
 
-void GameController::shot(int &score) {
+void GameController::shot(int playerId, int weaponPower) {
     shot_flag.set();
     shot_timer.set(10 * rtos::s);
-
+    score[playerId - 1] = weaponPower;
 }
 
 void GameController::enable() {
@@ -98,5 +98,9 @@ void GameController::setWeapon(Weapons weapon){
 
 void GameController::setGamemode(Gamemodes gamemode) {
     this->gamemode = gamemode;
+}
+
+void GameController::setPlayerId(int playerId){
+    this->playerId = playerId;
 }
 
