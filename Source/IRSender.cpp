@@ -3,7 +3,7 @@
 //
 
 #include "IRSender.hpp"
-
+// no main needed ir sender is passief en werkt op aanvraag van game controller dmv van irsender::fire()
 void IRSender::main() {
     for (int h = 0; h < 8; h++) {
         if ((streamA << h) & 0x80)
@@ -52,7 +52,49 @@ void IRSender::main() {
     }
 }
 
-void IRSender::fire(int playerId, Weapons wapen) {
+void IRSender::fire(char playerId, Weapons wapen) {
+
+    char damage = (char)wapen;
+    char placeholder =0;
+    encode_stream(playerId, damage ,placeholder );
+
+    for (int h = 0; h < 8; h++) {
+        if ((streamA << h) & 0x80)
+            send[h] = 1;
+        else {
+            send[h] = 0;
+        }
+    }
+
+    for (int h = 8; h < 16; h++) {
+        if ((streamB << (h - 8)) & 0x80)
+            send[h] = 1;
+        else {
+            send[h] = 0;
+        }
+    }
+
+    for (int i = 0; i < 16; i++) {
+        if (send[i]) {
+            ir.set(1);
+            interval.set(1600);
+            wait(interval);
+            ir.set(0);
+            interval.set(800);
+            wait(interval);
+        }
+        else {
+
+            ir.set(1);
+            interval.set(800);
+            wait(interval);
+
+            ir.set(0);
+            interval.set(1600);
+            wait(interval);
+        }
+        hwlib::wait_ms(3);
+    }
 
 }
 
@@ -100,7 +142,7 @@ void IRSender::encode_stream(char speler, char data, char control){
             }
         }
 
-        print_encoded_stream(streamA,streamB);
+        //print_encoded_stream(streamA,streamB);
 
         for(int y = 0; y < 5; y++){
             if(y > 1){
@@ -137,7 +179,7 @@ void IRSender::encode_stream(char speler, char data, char control){
             }
         }
 
-        print_encoded_stream(streamA,streamB);
+        //print_encoded_stream(streamA,streamB);
 
         for(int y = 0; y < 5; y++){
             if(((control << y) & 0x10) && y == 4 ){
@@ -159,7 +201,7 @@ void IRSender::encode_stream(char speler, char data, char control){
             }
         }
 
-        print_encoded_stream(streamA,streamB);;
+       // print_encoded_stream(streamA,streamB);;
 
     }
 

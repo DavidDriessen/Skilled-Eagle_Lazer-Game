@@ -16,12 +16,25 @@
 class IRSender : public rtos::task<> {
     hwlib::pin_out &ir;
     rtos::timer interval;
+    ///
+    /// streamA and StreamB are used to hold the 2 bytes to be send by the IRsender
+    /// they are set by calling ecode_stream(char, char, char)
+    ///
     unsigned char streamA;
     unsigned char streamB;
+    ///
+    ///an array for holding the individual bits of streamA and streamB
+    ///
     bool send[16];
+    ///
+    ///main function used by rtos not neccesary omdat ir sender on demand is
+    ///
     void main();
 
 public:
+    ///
+    /// constructor
+    ///
     IRSender(hwlib::pin_out &ir, unsigned int priority, const char *name) :
             task(priority, name),
             ir(ir),
@@ -29,9 +42,23 @@ public:
             streamA(0),
             streamB(0){};
 
-    void fire(int playerId, Weapons wapen);
+    ///
+    /// this function is used to fire a shot
+    ///
+    void fire(char playerId, Weapons wapen);
+
+    ///
+    ///  this function is used to encode speler data and control into 2 bytes
+    ///
     void encode_stream(char speler , char data, char control);
+    ///
+    /// this function is used to print the 2 bytes containing the ir stream in binary format
+    ///
     void print_encoded_stream(char a, char b);
+    ///
+    /// this function is used by print_encoded_stream to print
+    /// it prints a single byte in binary format
+    ///
     void print_binary(char print, int lenght);
 };
 
