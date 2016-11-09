@@ -48,7 +48,7 @@ int main(void)
     tsop_vdd.set(1);
 
     int highpulse, lowpulse;
-    while(1) {
+     while(1) {
         currentpulse = 0;
         while (currentpulse < 16) {
             // zet de timing variabelen op 0

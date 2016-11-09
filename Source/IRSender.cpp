@@ -5,17 +5,20 @@
 #include "IRSender.hpp"
 
 void IRSender::main() {
-    bool send[16];
-    byte b[2] = {0b11010110, 0b01010110};
-    for (int k = 0; k < 2; k++) {
-        send[(k * 8) + 0] = (bool) ((b[k] & 0b10000000) ? 1 : 0);
-        send[(k * 8) + 1] = (bool) ((b[k] & 0b01000000) ? 1 : 0);
-        send[(k * 8) + 2] = (bool) ((b[k] & 0b00100000) ? 1 : 0);
-        send[(k * 8) + 3] = (bool) ((b[k] & 0b00010000) ? 1 : 0);
-        send[(k * 8) + 4] = (bool) ((b[k] & 0b00001000) ? 1 : 0);
-        send[(k * 8) + 5] = (bool) ((b[k] & 0b00000100) ? 1 : 0);
-        send[(k * 8) + 6] = (bool) ((b[k] & 0b00000010) ? 1 : 0);
-        send[(k * 8) + 7] = (bool) ((b[k] & 0b00000001) ? 1 : 0);
+    for (int h = 0; h < 8; h++) {
+        if ((streamA << h) & 0x80)
+            send[h] == 1;
+        else {
+            send[h] == 0;
+        }
+    }
+
+    for (int h = 8; h < 16; h++) {
+        if ((streamB << (h - 8)) & 0x80)
+            send[h] == 1;
+        else {
+            send[h] == 0;
+        }
     }
 
 #if IRdebuglevel == 1
@@ -33,7 +36,9 @@ void IRSender::main() {
                 ir.set(0);
                 interval.set(800);
                 wait(interval);
-            } else {
+            }
+            else {
+
                 ir.set(1);
                 interval.set(800);
                 wait(interval);
@@ -42,11 +47,139 @@ void IRSender::main() {
                 interval.set(1600);
                 wait(interval);
             }
+            hwlib::wait_ms(3);
         }
-        hwlib::wait_ms(3);
     }
 }
 
 void IRSender::fire(int playerId, Weapons wapen) {
 
+}
+
+/*
+void IRSender::make_send(){
+    for (int h = 0; h < 8; h++) {
+        if ((streamA << h) & 0x80)
+            send[h] == 1;
+        else {
+            send[h] == 0;
+        }
+    }
+
+    for (int h = 8; h < 16; h++) {
+        if ((streamB << (h - 8)) & 0x80)
+            send[h] == 1;
+        else {
+            send[h] == 0;
+        }
+    }
+}
+*/
+
+
+
+void IRSender::encode_stream(char speler, char data, char control){
+
+        //unsigned char streamA = 0;
+        //unsigned char streamB = 0;
+        //char list[2];
+        streamA = streamA | 0x01;
+        streamA = streamA << 1;
+
+        print_encoded_stream(streamA,streamB);
+
+
+
+        for(int y = 0; y < 5; y++){
+            if((speler << y) & 0x10 ){
+                streamA = streamA | 0x01;
+                streamA = streamA << 1;
+            }
+            else{
+                streamA = streamA << 1;
+            }
+        }
+
+        print_encoded_stream(streamA,streamB);
+
+        for(int y = 0; y < 5; y++){
+            if(y > 1){
+
+                if((data << y) & 0x10 ){
+                    streamB = streamB | 0x01;
+                    streamB = streamB << 1;
+                }
+                else{
+                    streamB = streamB << 1;
+                }
+
+            }
+
+            else{
+
+                if(((data << y) & 0x10) && y == 1 ){
+                    streamA = streamA | 0x01;
+                }
+                else if( (data << y) & 0x10 ){
+                    streamA = streamA | 0x01;
+                    streamA = streamA << 1;
+                }
+                else{
+                    if(y == 1){
+                        //printf("data_end byteA  A0\n");
+                    }
+                    else{
+                        streamA = streamA << 1;
+                        //printf("data A0\n");
+                    }
+
+                }
+            }
+        }
+
+        print_encoded_stream(streamA,streamB);
+
+        for(int y = 0; y < 5; y++){
+            if(((control << y) & 0x10) && y == 4 ){
+                streamB = streamB | 0x01;
+            }
+            else if((control << y) & 0x10 ){
+                streamB = streamB | 0x01;
+                streamB = streamB << 1;
+            }
+            else{
+                if(y == 4){
+                    //printf("control_end byteB B0\n");
+                }
+                else{
+                    streamB = streamB << 1;;
+
+                }
+
+            }
+        }
+
+        print_encoded_stream(streamA,streamB);;
+
+    }
+
+
+void IRSender::print_binary(char print, int lenght){
+    for(int h = 0; h < lenght; h++){
+        if(( print << h ) & 0x80){
+            //std::cout<< "1";
+            hwlib::cout<< "1";
+        }
+        else{
+            hwlib::cout<< "0";
+            //printf("0");
+        }
+    }
+    //printf("\n");
+}
+
+void IRSender::print_encoded_stream(char a, char b){
+    print_binary(a,8);
+    print_binary(b,8);
+    hwlib::cout<< "\n\n";
 }

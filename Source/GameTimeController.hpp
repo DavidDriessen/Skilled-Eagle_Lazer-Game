@@ -10,20 +10,25 @@ class GameController;
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "GameController.hpp"
+#include "DisplayController.hpp"
 
 
 class GameTimeController: public rtos::task<>{
     private:
         void main();
         rtos::timer gameTime;
+        rtos::timer updateTime;
         GameController  * gameController;
+        DisplayController & displayController;
+        unsigned long time;
 
     public:
         GameTimeController(unsigned int priority,
                            const char *name,
-                           GameController * gameController
+                           GameController * gameController,
+                           DisplayController & displayController
         ):
-                task(priority, name), gameTime(this, "gameTime"), gameController(gameController){};
+                task(priority, name), gameTime(this, "gameTime"), updateTime(this, "updateTime"), gameController(gameController), displayController(displayController){};
 
         void start(unsigned long time);
 
