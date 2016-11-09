@@ -3,6 +3,7 @@
 //
 
 #include "DisplayController.hpp"
+int master = 0;
 
 void DisplayController::main() {
 //#define isMaster
@@ -29,7 +30,7 @@ void DisplayController::main() {
         wait(update);
     }
 #else
-    auto font16 = hwlib::font_default_16x16();
+    //auto font16 = hwlib::font_default_16x16();
     auto font8 = hwlib::font_default_8x8();
 
     auto wtop = hwlib::window_part(display,
@@ -39,12 +40,12 @@ void DisplayController::main() {
     auto wmiddel = hwlib::window_part(display,
                                       hwlib::location(0, 16),
                                       hwlib::location(128, 32));
-    auto middel = hwlib::window_ostream(wmiddel, font16);
+    auto middel = hwlib::window_ostream(wmiddel, font8);
     auto wbottom = hwlib::window_part(display,
                                       hwlib::location(0, 48),
                                       hwlib::location(128, 32));
     auto bottom = hwlib::window_ostream(wbottom, font8);
-    while (1) {
+   /* while (1) {
         top << "\f"
             << "Time: " << time << "\n"
             << "______________" << "\n";
@@ -63,7 +64,101 @@ void DisplayController::main() {
                << "ID: " << playerid << " W:" << weapon << "\n";
         display.flush();
         wait(update);
+    }*/
+
+while (1) {
+    if(master==0)
+    {
+        top << "\f"
+            << "Time: " << time << "\n"
+            << "______________" << "\n";
+
+        if (hitBool) {
+            middel << "\f"
+                   << "  HIT" << "\n"
+                   << "" << "\n";
+        } else {
+            middel << "\f"
+                   << "             \n"
+                   << "Mag: " << bullets << "\n";
+        }
+        bottom << "\f"
+               << "______________\n"
+               << "ID: " << player << "   W: " << weapon << "\n";
     }
+    if(master==1) {
+        top     << "\f"
+                << "______________\n"
+                << "A. Player" << "\n";
+
+        middel  << "\f"
+                << "B. Weapon\n"
+                << "C. Command\n";
+
+        bottom  << "\f"
+                << "\n"
+                << "______________\n";
+    }
+
+    if(master==2) {
+        top << "\f"
+            << "______________" << "\n"
+            << "\n";
+
+        middel << "\f"
+               << "Player: " << player << "\n"
+               << "\n";
+
+        bottom << "\f"
+               << "\n"
+               << "______________" << "\n";
+    }
+
+    if(master==3) {
+        top << "\f"
+            << "______________" << "\n"
+            << "\n";
+
+        middel << "\f"
+               << "Weapon: " << weapon << "\n"
+               << "\n";
+
+        bottom << "\f"
+               << "\n"
+               << "______________" << "\n";
+    }
+    if(master==4) {
+        top << "\f"
+            << "______________" << "\n"
+            << "\n";
+
+        middel << "\f"
+               << "Command: " << command << "\n"
+               << "\n";
+
+        bottom << "\f"
+               << "\n"
+               << "______________" << "\n";
+    }
+    if(master==5) {
+        top << "\f"
+            << "______________" << "\n"
+            << "\n";
+
+        middel << "\f"
+               << "Do you want to\n"
+               << "send the data ?\n";
+
+        bottom << "\f"
+               << "\n"
+               << "______________" << "\n";
+    }
+    display.flush();
+    wait(update);
+}
+
+
+
 #endif
 
 }
@@ -99,28 +194,35 @@ void DisplayController::hitClear() {
 }
 
 void DisplayController::masterMenu() {
-    master = 0;
-    update.set();
-}
-
-void DisplayController::playerEdit(int *id) {
-    //playerid = id;
     master = 1;
     update.set();
 }
 
-void DisplayController::commandEdit(int *command) {
-    master = 3;
-    update.set();
-}
-
-void DisplayController::weaponEdit(int weapon) {
+void DisplayController::playerEdit(int id) {
+    player = id;
     master = 2;
     update.set();
 }
 
-void DisplayController::confirm() {
+void DisplayController::weaponEdit(int weaponInput) {
+    weapon = weaponInput;
+    master = 3;
+    update.set();
+}
+
+void DisplayController::commandEdit(int commandInput) {
+    command = commandInput;
     master = 4;
+    update.set();
+}
+
+void DisplayController::confirm() {
+    master = 5;
+    update.set();
+}
+
+void DisplayController::end(){
+    master = 0;
     update.set();
 }
 
