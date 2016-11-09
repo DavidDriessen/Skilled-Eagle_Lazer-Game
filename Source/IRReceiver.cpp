@@ -5,7 +5,7 @@
 #include "IRReceiver.hpp"
 
 void IRReceiver::printpulses(void) {
-#if debug == 2
+#if IRdebuglevel == 2
     hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
     for (int i = 0; i < currentpulse; i++) {
         hwlib::cout << pulses[i][0] * RESOLUTION;  //verwissel deze 0 en 1 om positie van high and low te wissellen
@@ -13,7 +13,8 @@ void IRReceiver::printpulses(void) {
         hwlib::cout << pulses[i][1] * RESOLUTION;
         hwlib::cout << " usec\n";
     }
-#elif debug == 1
+    while(1){}
+#elif IRdebuglevel == 1
     for (int i = 0; i < currentpulse; i++) {
         //if (pulses[i][1] > pulses[i + 1][0]) {
         if (pulses[i][1] * RESOLUTION > 1000) {
@@ -23,7 +24,7 @@ void IRReceiver::printpulses(void) {
         }
     }
     hwlib::cout << "\n";
-#elif debug == 0
+#elif IRdebuglevel == 0
     display.ir((int **) pulses, currentpulse);
 #endif
 }
@@ -72,5 +73,6 @@ void IRReceiver::main() {
             currentpulse++;
         }
         printpulses();
+        hwlib::wait_us(3000);
     }
 }

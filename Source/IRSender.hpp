@@ -7,8 +7,9 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
-
-#define SendRESOLUTION 1200 * 4 //200
+#ifndef IRdebuglevel
+#define IRdebuglevel 0
+#endif
 
 class IRSender : public rtos::task<> {
     hwlib::pin_out &ir;

@@ -18,22 +18,28 @@ void IRSender::main() {
         send[(k * 8) + 7] = (bool) ((b[k] & 0b00000001) ? 1 : 0);
     }
 
+#if IRdebuglevel == 1
+    for (int j = 0; j < 16; ++j) {
+        hwlib::cout << send[j];
+    }
+#endif
+
     while (1) {
         for (int i = 0; i < 16; i++) {
             if (send[i]) {
                 ir.set(1);
-                interval.set(SendRESOLUTION * 2);
+                interval.set(1600);
                 wait(interval);
                 ir.set(0);
-                interval.set(SendRESOLUTION);
+                interval.set(800);
                 wait(interval);
             } else {
                 ir.set(1);
-                interval.set(SendRESOLUTION);
+                interval.set(800);
                 wait(interval);
 
                 ir.set(0);
-                interval.set(SendRESOLUTION * 2);
+                interval.set(1600);
                 wait(interval);
             }
         }
