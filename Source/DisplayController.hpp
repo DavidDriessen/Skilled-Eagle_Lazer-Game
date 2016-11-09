@@ -12,6 +12,7 @@
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
+    int master = 0;
     int time = 0;
     int bullets = 0;
     int weapon = 0;
@@ -34,8 +35,7 @@ public:
             bullets_pool("Display_bullets_pool"),
             weapon_pool("Display_weapon_pool"),
             playerid_pool("Display_playerid_pool"),
-            update(this, "Display_update")
-    {};
+            update(this, "Display_update") {};
 
     void setTime(int time);
 
@@ -49,6 +49,15 @@ public:
 
     void hitClear();
 
+    void masterMenu();
+
+    void playerEdit(int *id);
+
+    void commandEdit(int *command);
+
+    void weaponEdit(int weapon);
+
+    void confirm();
 };
 
 #endif //SKILLED_EAGLE_DISPLAYCONTROLLER_H

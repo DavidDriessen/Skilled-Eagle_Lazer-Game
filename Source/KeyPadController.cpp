@@ -18,6 +18,7 @@ void KeyPadController::main()
 
     while(1)
     {
+        display.masterMenu();
         auto c = keypad.getc();
 
         if(c=='A')
@@ -25,9 +26,10 @@ void KeyPadController::main()
             while(a_condition==0)
             {
                 auto t = keypad.getc();
-                if(t >= '1' && t <= '9')
+                if(t >= '0' && t <= '9')
                 {
                     a_numbers[a_n]=t-'0';
+                    display.playerEdit(a_numbers);
                     a_input_array_size++;
                     a_n++;
                 }
@@ -45,6 +47,7 @@ void KeyPadController::main()
         {
             auto t = keypad.getc();
             init.WeaponGetter(t - 48);
+            display.weaponEdit(t - 48);
         }
 
         if(c=='C')
@@ -52,9 +55,10 @@ void KeyPadController::main()
             while (c_condition == 0)
             {
                 auto t = keypad.getc();
-                if (t >= '1' && t <= '9')
+                if (t >= '0' && t <= '9')
                 {
                     c_numbers[c_n] = t - '0';
+                    display.commandEdit(c_numbers);
                     c_input_array_size++;
                     c_n++;
                 }
@@ -71,6 +75,7 @@ void KeyPadController::main()
 
             while (c_condition == 0)
             {
+                display.confirm();
                 auto t = keypad.getc();
                 if (t == '#')
                 {

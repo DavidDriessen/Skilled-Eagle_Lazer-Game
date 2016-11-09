@@ -12,11 +12,13 @@
 #include <stdlib.h>
 #include "Weapons.hpp"
 #include "SpeakerController.hpp"
+#include "DisplayController.hpp"
 
 using namespace hwlib;
 
 class KeyPadController: public rtos::task<>{
 private:
+    DisplayController & display;
     InitController & init;
     hwlib::istream & keypad;
     rtos::timer KeyTimer;
@@ -26,8 +28,10 @@ private:
     void main();
 
 public:
-    KeyPadController(unsigned int priority, const char *name, InitController & init, hwlib::istream & pad, SpeakerController & speak) :
-            task(priority, name), init(init), keypad(pad), KeyTimer(this, "KeyPadTimer"), speak(speak) {};
+    KeyPadController(unsigned int priority, const char *name, InitController &init, hwlib::istream &pad,
+                         SpeakerController &speak, DisplayController &display) :
+            task(priority, name), init(init), keypad(pad), KeyTimer(this, "KeyPadTimer"), speak(speak),
+            display(display) {};
 
     int array_to_intger(int *content, int array_size);
 };

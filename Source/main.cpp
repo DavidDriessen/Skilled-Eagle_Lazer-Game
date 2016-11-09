@@ -61,7 +61,7 @@ int main() {
     auto button = ButtonController(2, "ButtonController", temp, btn);
     gameController = &temp;
     auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
-    auto keypad = KeyPadController(5, "KeyPadController", init, key, Speaker);
+    auto keypad = KeyPadController(5, "KeyPadController", init, key, Speaker, display);
 
     rtos::run();
     return 69;
