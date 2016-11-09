@@ -7,13 +7,14 @@ enum State{
     shoot,
     waiting,
     disabled,
-    shot
+    shot,
+    reloading
 };
 
 void GameController::main() {
     State currentState = disabled;
     while(1) {
-        rtos::event evt = wait(game_start + game_stop + button_released + button_pressed + shot_flag + shot_timer);
+        rtos::event evt = wait(game_start + game_stop + button_released + button_pressed + shot_flag + shot_timer + reload_timer);
         switch (currentState){
             case disabled:
                 if(evt == game_start) {
@@ -32,8 +33,17 @@ void GameController::main() {
                 }
                 if(evt == button_pressed){
                     currentState = shoot;
-                    irSender.fire(playerId, weapon);
-                    speaker.shoot();
+                    if(bullets != 0){
+                        bullets --;
+                        irSender.fire(playerId, weapon);
+                        speaker.shoot();
+                        display.setBullets(bullets);
+                    }
+                    if(bullets == 0){
+                        currentState = reloading;
+                        reload_timer.set(5 * rtos::s);
+                    }
+
                 }
                 break;
             case State::shot:
@@ -59,6 +69,23 @@ void GameController::main() {
                     currentState = disabled;
                 }
                 break;
+            case reloading:
+                if(evt == shot_flag)
+                {
+                    currentState = State::shot;
+                    display.hit();
+                    speaker.hit();
+                }
+                if(evt == game_stop)
+                {
+                    currentState = disabled;
+                }
+                if(evt == reload_timer)
+                {
+                    currentState = waiting;
+                    bullets = 15;
+                    display.setBullets(bullets);
+                }
         }
     }
 }
