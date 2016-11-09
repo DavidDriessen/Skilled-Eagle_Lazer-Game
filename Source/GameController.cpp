@@ -27,17 +27,13 @@ void GameController::main() {
                 if(evt == shot_flag){
                     currentState = State::shot;
                     display.hit();
-                    for(int i = 0; i < 3; i++){
-                        speaker.click();
-                        sound.set(200 * rtos::ms);
-                        wait(sound);
-                    }
+                    speaker.hit();
 
                 }
                 if(evt == button_pressed){
                     currentState = shoot;
                     irSender.fire(playerId, weapon);
-                    speaker.peew();
+                    speaker.shoot();
                 }
             case State::shot:
                 if(evt == game_stop){
@@ -52,11 +48,7 @@ void GameController::main() {
                 {
                     currentState = State::shot;
                     display.hit();
-                    for(int i = 0; i < 3; i++){
-                        speaker.click();
-                        sound.set(200 * rtos::ms);
-                        wait(sound);
-                    }
+                    speaker.hit();
                 }
                 if(evt == button_released){
                     currentState = waiting;
@@ -81,6 +73,14 @@ void GameController::enable() {
 
 void GameController::disable() {
     game_stop.set();
+}
+
+void GameController::buttonPressed(){
+    button_pressed.set();
+}
+
+void GameController::buttonReleased(){
+    button_released.set();
 }
 
 Gamemodes GameController::getGamemode(){
