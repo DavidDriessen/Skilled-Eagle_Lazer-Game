@@ -46,3 +46,7 @@ void IRSender::main() {
         hwlib::wait_ms(3);
     }
 }
+
+void IRSender::fire(int playerId, Weapons wapen) {
+
+}

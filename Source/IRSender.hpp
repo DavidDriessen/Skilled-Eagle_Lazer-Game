@@ -7,6 +7,8 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
+#include "Weapons.hpp"
+
 #ifndef IRdebuglevel
 #define IRdebuglevel 0
 #endif
@@ -21,6 +23,8 @@ public:
             task(priority, name),
             ir(ir),
             interval(this, "IRSender_interval") {};
+
+    void fire(int playerId, Weapons wapen);
 
 };
 

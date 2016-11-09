@@ -11,7 +11,7 @@ enum State{
 };
 
 void GameController::main() {
-    State currentState disabled;
+    State currentState = disabled;
     while(1) {
         rtos::event evt = wait(game_start + game_stop + button_released + button_pressed + shot_flag + shot_timer);
         switch (currentState){
@@ -36,7 +36,7 @@ void GameController::main() {
                 }
                 if(evt == button_pressed){
                     currentState = shoot;
-                    irSender.fire();
+                    irSender.fire(playerId, weapon);
                     speaker.peew();
                 }
             case State::shot:
