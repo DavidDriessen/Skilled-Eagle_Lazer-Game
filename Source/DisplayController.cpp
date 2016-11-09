@@ -21,7 +21,7 @@ void DisplayController::main() {
 
     top << "\fmaster\n";
     while (1) {
-        if () {
+        if (master == 0) {
             boddy << "\f" << "A. player\n" << "B. Weapon\n" << "C. command\n";
         }
 

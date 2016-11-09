@@ -7,17 +7,17 @@
 void IRSender::main() {
     for (int h = 0; h < 8; h++) {
         if ((streamA << h) & 0x80)
-            send[h] == 1;
+            send[h] = 1;
         else {
-            send[h] == 0;
+            send[h] = 0;
         }
     }
 
     for (int h = 8; h < 16; h++) {
         if ((streamB << (h - 8)) & 0x80)
-            send[h] == 1;
+            send[h] = 1;
         else {
-            send[h] == 0;
+            send[h] = 0;
         }
     }
 
@@ -83,7 +83,7 @@ void IRSender::encode_stream(char speler, char data, char control){
         //unsigned char streamA = 0;
         //unsigned char streamB = 0;
         //char list[2];
-        streamA = streamA | 0x01;
+        streamA = (unsigned char) (streamA | 0x01);
         streamA = streamA << 1;
 
         print_encoded_stream(streamA,streamB);
@@ -92,7 +92,7 @@ void IRSender::encode_stream(char speler, char data, char control){
 
         for(int y = 0; y < 5; y++){
             if((speler << y) & 0x10 ){
-                streamA = streamA | 0x01;
+                streamA = (unsigned char) (streamA | 0x01);
                 streamA = streamA << 1;
             }
             else{
@@ -106,7 +106,7 @@ void IRSender::encode_stream(char speler, char data, char control){
             if(y > 1){
 
                 if((data << y) & 0x10 ){
-                    streamB = streamB | 0x01;
+                    streamB = (unsigned char) (streamB | 0x01);
                     streamB = streamB << 1;
                 }
                 else{
@@ -118,10 +118,10 @@ void IRSender::encode_stream(char speler, char data, char control){
             else{
 
                 if(((data << y) & 0x10) && y == 1 ){
-                    streamA = streamA | 0x01;
+                    streamA = (unsigned char) (streamA | 0x01);
                 }
                 else if( (data << y) & 0x10 ){
-                    streamA = streamA | 0x01;
+                    streamA = (unsigned char) (streamA | 0x01);
                     streamA = streamA << 1;
                 }
                 else{
@@ -141,10 +141,10 @@ void IRSender::encode_stream(char speler, char data, char control){
 
         for(int y = 0; y < 5; y++){
             if(((control << y) & 0x10) && y == 4 ){
-                streamB = streamB | 0x01;
+                streamB = (unsigned char) (streamB | 0x01);
             }
             else if((control << y) & 0x10 ){
-                streamB = streamB | 0x01;
+                streamB = (unsigned char) (streamB | 0x01);
                 streamB = streamB << 1;
             }
             else{
