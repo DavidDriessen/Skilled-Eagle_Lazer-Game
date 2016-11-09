@@ -9,14 +9,16 @@
 #include "rtos.hpp"
 #include "Weapons.hpp"
 
+
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
-    int master = 0;
     int time = 0;
     int bullets = 0;
-    int weapon = 0;
     int playerid = 0;
+    int player = 0;
+    int weapon = 0;
+    int command = 0;
     bool hitBool = false;
 
     rtos::pool<int> time_pool;
@@ -44,13 +46,16 @@ public:
 
     void masterMenu();
 
-    void playerEdit(int *id);
+    void playerEdit(int id);
 
-    void commandEdit(int *command);
+    void commandEdit(int commandInput);
 
-    void weaponEdit(int weapon);
+    void weaponEdit(int weaponInput);
+
 
     void confirm();
+
+    void end();
 };
 
 #endif //SKILLED_EAGLE_DISPLAYCONTROLLER_H

@@ -18,7 +18,9 @@ void KeyPadController::main()
 
     while(1)
     {
-        display.masterMenu();
+        if(c_condition==0) {
+            display.masterMenu();
+        }
         auto c = keypad.getc();
 
         if(c=='A')
@@ -29,8 +31,8 @@ void KeyPadController::main()
                 if(t >= '0' && t <= '9')
                 {
                     a_numbers[a_n]=t-'0';
-                    display.playerEdit(a_numbers);
                     a_input_array_size++;
+                    display.playerEdit(array_to_intger(a_numbers, a_input_array_size));
                     a_n++;
                 }
                 if(t == '#')
@@ -58,8 +60,8 @@ void KeyPadController::main()
                 if (t >= '0' && t <= '9')
                 {
                     c_numbers[c_n] = t - '0';
-                    display.commandEdit(c_numbers);
                     c_input_array_size++;
+                    display.commandEdit(array_to_intger(c_numbers, c_input_array_size));
                     c_n++;
                 }
                 if (t == '#')
@@ -79,7 +81,10 @@ void KeyPadController::main()
                 auto t = keypad.getc();
                 if (t == '#')
                 {
+                    display.end();
+
                     c_condition = 1;
+
                 }
                 KeyTimer.set(100 * rtos::ms);
                 wait(KeyTimer);
