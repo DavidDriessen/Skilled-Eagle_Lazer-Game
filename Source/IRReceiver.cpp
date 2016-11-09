@@ -74,7 +74,10 @@ void IRReceiver::main() {
         }
 #if debug > 0
         printpulses();
+<<<<<<< HEAD
         hwlib::wait_us(3000);
+=======
 #endif
+>>>>>>> c52ff84fc340df722568f7343c31582cf5c08956
     }
 }

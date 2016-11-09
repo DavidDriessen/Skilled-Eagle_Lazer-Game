@@ -39,7 +39,7 @@ set(SOURCE_FILES
 
         Source/main.cpp
 
-        Source/Weapons.hpp
+        Source/Weapons.hpp Source/Weapons.cpp
         Source/Gamemodes.hpp
 
         Source/IRReceiver.cpp Source/IRReceiver.hpp
@@ -50,6 +50,7 @@ set(SOURCE_FILES
         Source/InitController.cpp Source/InitController.hpp
         Source/GameController.cpp Source/GameController.hpp
         Source/GameTimeController.cpp Source/GameTimeController.hpp
-        Source/SpeakerController.cpp Source/SpeakerController.hpp Source/ButtonController.cpp Source/ButtonController.hpp)
+        Source/SpeakerController.cpp Source/SpeakerController.hpp
+        Source/ButtonController.cpp Source/ButtonController.hpp)
 
 add_executable(Skilled_Eagle ${SOURCE_FILES})

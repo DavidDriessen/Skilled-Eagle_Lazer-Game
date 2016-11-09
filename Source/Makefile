@@ -9,7 +9,7 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := IRReceiver.cpp IRSender.cpp DisplayController.cpp KeyPadController.cpp InitController.cpp SpeakerController.cpp GameController.cpp GameTimeController.cpp
+SOURCES := IRReceiver.cpp IRSender.cpp DisplayController.cpp KeyPadController.cpp InitController.cpp SpeakerController.cpp GameController.cpp GameTimeController.cpp Weapons.cpp
 
 # header files in this project
 HEADERS := IRReceiver.hpp IRSender.hpp DisplayController.hpp KeyPadController.hpp InitController.hpp SpeakerController.hpp GameController.hpp GameTimeController.hpp Weapons.hpp Gamemodes.hpp

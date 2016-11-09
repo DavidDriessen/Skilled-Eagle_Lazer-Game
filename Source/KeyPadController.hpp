@@ -26,7 +26,7 @@ private:
     void main();
 
 public:
-    KeyPadController(unsigned int priority, const char *name, InitController &init, hwlib::istream & pad, SpeakerController & speak) :
+    KeyPadController(unsigned int priority, const char *name, InitController & init, hwlib::istream & pad, SpeakerController & speak) :
             task(priority, name), init(init), keypad(pad), KeyTimer(this, "KeyPadTimer"), speak(speak) {};
 
     int array_to_intger(int *content, int array_size);

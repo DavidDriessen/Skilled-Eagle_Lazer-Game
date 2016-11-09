@@ -43,14 +43,6 @@ int main() {
     auto tsop_signal = target::pin_in(target::pins::d8);
     //end ir
 
-    //OLED start
-    auto scl = target::pin_oc( target::pins::scl );
-    auto sda = target::pin_oc( target::pins::sda );
-    auto i2c_bus = hwlib::i2c_bus_bit_banged_scl_sda( scl, sda );
-    auto oled = hwlib::glcd_oled_buffered( i2c_bus, 0x3c );
-
-    //OLED stop
-
     //start rtos
     auto display = DisplayController(5, "DisplayController", oled);
     GameController *gameController = 0;
