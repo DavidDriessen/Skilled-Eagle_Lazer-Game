@@ -7,17 +7,17 @@
 void DisplayController::main() {
 //#define isMaster
 #ifdef isMaster
-    auto font16 = hwlib::font_default_16x16();
+//    auto font16 = hwlib::font_default_16x16();
     auto font8 = hwlib::font_default_8x8();
 
     auto wtop = hwlib::window_part(display,
                                    hwlib::location(0, 0),
-                                   hwlib::location(128, 8));
+                                   hwlib::location(128, 16));
     auto top = hwlib::window_ostream(wtop, font8);
     auto wmiddel = hwlib::window_part(display,
-                                      hwlib::location(0, 8),
-                                      hwlib::location(128, 56));
-    auto body = hwlib::window_ostream(wmiddel, font16);
+                                      hwlib::location(0, 16),
+                                      hwlib::location(128, 48));
+    auto body = hwlib::window_ostream(wmiddel, font8);
 
     top << "\fmaster\n";
     while (1) {
@@ -29,17 +29,17 @@ void DisplayController::main() {
         wait(update);
     }
 #else
-//    auto font16 = hwlib::font_default_16x16();
+    auto font16 = hwlib::font_default_16x16();
     auto font8 = hwlib::font_default_8x8();
 
     auto wtop = hwlib::window_part(display,
                                    hwlib::location(0, 0),
                                    hwlib::location(128, 16));
     auto top = hwlib::window_ostream(wtop, font8);
-//    auto wmiddel = hwlib::window_part(display,
-//                                      hwlib::location(0, 16),
-//                                      hwlib::location(128, 32));
-//    auto middel = hwlib::window_ostream(wmiddel, font16);
+    auto wmiddel = hwlib::window_part(display,
+                                      hwlib::location(0, 16),
+                                      hwlib::location(128, 32));
+    auto middel = hwlib::window_ostream(wmiddel, font16);
     auto wbottom = hwlib::window_part(display,
                                       hwlib::location(0, 48),
                                       hwlib::location(128, 32));
@@ -49,15 +49,15 @@ void DisplayController::main() {
             << "Time: " << time << "\n"
             << "______________" << "\n";
 
-//        if (hitBool) {
-//            middel << "\f"
-//                   << "  HIT" << "\n"
-//                   << "" << "\n";
-//        } else {
-//            middel << "\f"
-//                   << "             \n"
-//                   << "Mag: " << bullets << "\n";
-//        }
+        if (hitBool) {
+            middel << "\f"
+                   << "  HIT" << "\n"
+                   << "" << "\n";
+        } else {
+            middel << "\f"
+                   << "             \n"
+                   << "Mag: " << bullets << "\n";
+        }
         bottom << "\f"
                << "______________\n"
                << "ID: " << playerid << " W:" << weapon << "\n";

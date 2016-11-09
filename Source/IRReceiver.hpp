@@ -18,9 +18,9 @@
 #endif
 
 class IRReceiver : public rtos::task<> {
-    char speler;
-    char data;
-    char control;
+    unsigned char speler;
+    unsigned char data;
+    unsigned char control;
     int pulses[100][2];
     int currentpulse = 0;
     int highpulse, lowpulse;
@@ -42,8 +42,8 @@ public:
             interval(this, "IRReceiver_interval"),
             game(game) {};
 
-
-    void decode_spelleider( unsigned char a , unsigned char b);
+    void write_detected_ir(unsigned char a , unsigned char b, unsigned char c)
+    void decode_spelleider( unsigned char a , unsigned char b, unsigned char c);
     char check_time_bit(const char stream);
     void decode_stream(unsigned char streamA, unsigned char streamB);
     void start_decoding_data(void);

@@ -41,8 +41,7 @@ void IRReceiver::main() {
                 // verhoog tijd variabele en wacht aantal us
                 highpulse++;
                 hwlib::wait_us(RESOLUTION);
-                //interval.set(RESOLUTION);
-                /wait(interval);
+
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((highpulse >= MAXPULSE)) {
@@ -60,8 +59,7 @@ void IRReceiver::main() {
                 // verhoog tijd variabele en wacht aantal us
                 lowpulse++;
                 hwlib::wait_us(RESOLUTION);
-                //interval.set(RESOLUTION);
-                //wait(interval);
+
                 // als deze pulse langer duurd dan time out en er is 1 pulse gezien
                 // print de pulsen en return
                 if ((lowpulse >= MAXPULSE)) {
@@ -81,14 +79,17 @@ void IRReceiver::main() {
         printpulses();
         hwlib::wait_us(3000);
 #endif
-        start_decoding_data();
+        if(currentpulse == 16){
+            start_decoding_data();
+        }
+
     }
 }
 
 void IRReceiver::start_decoding_data(void) {
     //start het bouwen van de 2 bytes
-    unsigned char streamA;
-    unsigned char streamB;
+    unsigned char streamA =0;
+    unsigned char streamB =0;
 
     for (int i = 0; i < currentpulse; i++) {
         if(i > 7) {
@@ -144,16 +145,18 @@ void IRReceiver::start_decoding_data(void) {
 
 
 
-    //decode_spelleider(streamA , streamB);
 
 }
 
 
 
-void IRReceiver::decode_spelleider(unsigned char a , unsigned char b){
+void IRReceiver::decode_spelleider(unsigned char a , unsigned char b, unsigned char c){
+
     if(a == 0 && b == 0){
         //printf("\ngame start  send\n");
         //start game commando ontvangen
+
+
     }
     else if(a == 0){
         if(check_time_bit(b)){
@@ -164,6 +167,9 @@ void IRReceiver::decode_spelleider(unsigned char a , unsigned char b){
             //printf("\ntime data send %d\n", b);
             //game time commando ontvangen
         }
+    }
+    else{
+        //normale speler normale data
     }
 
 
@@ -180,6 +186,24 @@ char IRReceiver::check_time_bit(const char stream){
     }
 
 }
+
+
+void IRReceiver::write_detected_ir(unsigned char a , unsigned char b, unsigned char c){
+    struct shot {
+        char speler;
+        char data;
+        char control;
+    }shot_data;
+
+    shot_data.speler  = a;
+    shot_data.data    = b;
+    shot_data.control = c;
+
+    //channel.write(shot_data);
+}
+
+
+
 
 void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
 
@@ -267,12 +291,16 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
         }
     }
 
-    //decodeer game master of speler
-    decode_spelleider(speler, data);
+    //
+    write_detected_ir(speler, data, control);
 
 
     // hier komt iets van channel.write shot data
+<<<<<<< HEAD
 
 
+=======
+    hwlib::cout << list[0];
+>>>>>>> 0ba3bf9d9cd0cff846c9baff72ba02d58c0eccd9
 
 }
