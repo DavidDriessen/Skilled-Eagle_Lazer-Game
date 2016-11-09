@@ -22,21 +22,19 @@ void IRSender::main() {
         for (int i = 0; i < 16; i++) {
             if (send[i]) {
                 ir.set(1);
-                interval.set(SendRESOLUTION * 2);
-                wait(interval);
-                ir.set(0);
-                interval.set(SendRESOLUTION);
-                wait(interval);
-            } else {
-                ir.set(1);
-                interval.set(SendRESOLUTION);
-                wait(interval);
+                hwlib::wait_us(1600);
 
                 ir.set(0);
-                interval.set(SendRESOLUTION * 2);
-                wait(interval);
+                hwlib::wait_us(800);
+            } else {
+                ir.set(1);
+                hwlib::wait_us(800);
+
+                ir.set(0);
+                hwlib::wait_us(1600);
             }
         }
         hwlib::wait_ms(3);
     }
 }
+
