@@ -5,24 +5,25 @@
 #ifndef SKILLED_EAGLE_SPEAKERCONTROLLER_HPP
 #define SKILLED_EAGLE_SPEAKERCONTROLLER_HPP
 #include "hwlib.hpp"
+#include "rtos.hpp"
+#include "bmptk.h"
 
-class SpeakerController {
+class SpeakerController : public rtos::task<>{
 private:
     hwlib::pin_out & lsp;
     void await( long long int t );
     void beep(int f, int d, int fd);
+    rtos::timer SpeakerTimer;
+    rtos::flag ShootFlag;
+    rtos::flag HitFlag;
+    void main();
 public:
     SpeakerController(hwlib::pin_out & lsp):
-    lsp(lsp){};
+    lsp(lsp), SpeakerTimer(this, "SpeakerTimer"), ShootFlag(this, "ShootFlag"), HitFlag(this ,"HitFlag") {};
 
 
-    void peew();
-    void beep3();
-    void ohhh();
-    void uhoh();
-    void noise();
-    void noise2();
-    void click();
+    void shoot();
+    void hit();
 
 
 };
