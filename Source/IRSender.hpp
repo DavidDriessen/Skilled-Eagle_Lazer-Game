@@ -16,6 +16,7 @@
 class IRSender : public rtos::task<> {
     hwlib::pin_out &ir;
     rtos::timer interval;
+    rtos::flag Send_ir;
     ///
     /// streamA and StreamB are used to hold the 2 bytes to be send by the IRsender
     /// they are set by calling ecode_stream(char, char, char)
@@ -27,8 +28,21 @@ class IRSender : public rtos::task<> {
     ///
     bool send[16];
     ///
-    ///main function used by rtos not neccesary omdat ir sender on demand is
+    ///pool to hold the speler
     ///
+    rtos::pool< unsigned char > speler;
+    ///
+    ///pool to hold the data
+    ///
+    rtos::pool< unsigned char > data;
+    ///
+    ///pool to hold the control
+    ///
+    rtos::pool< unsigned char > control;
+    ///
+    ///main function used by rtos
+    ///
+
     void main();
 
 public:
@@ -39,13 +53,37 @@ public:
             task(priority, name),
             ir(ir),
             interval(this, "IRSender_interval"),
+            Send_ir(this, "Send_ir"),
             streamA(0),
-            streamB(0){};
+            streamB(0),
+            speler( "speler_pool" ),
+            data( "data_pool" ),
+            control( "control_pool" ){
+                    speler.write(0);
+                    data.write(0);
+                    control.write(0);
+             };
+
 
     ///
-    /// this function is used to fire a shot
+    /// \param speler
+    ///this function writes speler in to the speler pool
+    void write_speler( unsigned char speler);
     ///
-    void fire(char playerId, Weapons wapen);
+    /// \param data
+    ///this function writes data in to the data pool
+    void write_data(unsigned char data);
+    ///
+    /// \param control
+    /// this function writes control in to the control pool
+    void write_control(unsigned char control);
+
+
+
+    ///
+    /// this function is used to fire a shot by setting the send_ir flag
+    ///
+    void fire();
 
     ///
     ///  this function is used to encode speler data and control into 2 bytes
