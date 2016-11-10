@@ -4,7 +4,8 @@
 
 #include "IRReceiver.hpp"
 
-#if debug > 0
+#if IRdebuglevel > 0
+
 void IRReceiver::printpulses(void) {
 #if IRdebuglevel == 2
     hwlib::cout << "\n\r\n\rReceived: \n\rOFF \tON\n";
@@ -27,6 +28,7 @@ void IRReceiver::printpulses(void) {
     hwlib::cout << "\n";
 #endif
 }
+
 #endif
 
 void IRReceiver::main() {
@@ -75,13 +77,13 @@ void IRReceiver::main() {
             // verhoog positie in pulse array
             currentpulse++;
         }
-#if debug > 0
+#if IRdebuglevel > 0
         printpulses();
         hwlib::wait_us(3000);
 #endif
-        if(currentpulse == 16){
-            start_decoding_data();
-        }
+
+        start_decoding_data();
+
 
         //wait 10 ms rtos wait
 
@@ -92,59 +94,70 @@ void IRReceiver::main() {
 }
 
 void IRReceiver::start_decoding_data(void) {
-    //start het bouwen van de 2 bytes
-    unsigned char streamA =0;
-    unsigned char streamB =0;
+    int shift = 0;
 
-    for (int i = 0; i < currentpulse; i++) {
-        if(i > 7) {
-            if (i == 16) {
+
+    //start het bouwen van de 2 bytes
+    if (pulses[0][1] * RESOLUTION <= 1000 && pulses[1][1] * RESOLUTION > 1000) {
+        shift = 1;
+        //hwlib::cout << "shift bits 1 place\n";
+    } else if (pulses[0][1] * RESOLUTION <= 1000 && pulses[1][1] * RESOLUTION <= 1000) {
+        //hwlib::cout << "wrong data received\n";
+        return;
+    } else {
+       // hwlib::cout << "error\n";
+        return;
+    }
+
+
+    unsigned char streamA = 0;
+    unsigned char streamB = 0;
+
+
+    for (int i = shift; i < 16 + shift; i++) {
+        if (i > 7 + shift) {
+            if (i == 15 + shift) {
                 if (pulses[i][1] * RESOLUTION > 1000) {
                     streamB = streamB | 0x01;
-                }
-                else {
+                } else {
                     //nothing
                 }
-            }
-            else {
+            } else {
                 if (pulses[i][1] * RESOLUTION > 1000) {
                     //hwlib::cout << "1\n";
                     streamB = streamB | 0x01;
                     streamB = streamB << 1;
-                } else if (pulses[i][1] * RESOLUTION < 1000) {
+                } else if (pulses[i][1] * RESOLUTION <= 1000) {
                     //hwlib::cout << "0\n";
                     streamB = streamB << 1;
 
                 }
             }
-        }
-         else{
-                if(i == 7){
-                    if (pulses[i][1] * RESOLUTION  > 1000) {
-                        streamA = streamA | 0x01;
-                    }
-                    else{
-                        //nothing
-                    }
+        } else {
+            if (i == 7 + shift) {
+                if (pulses[i][1] * RESOLUTION > 1000) {
+                    streamA = streamA | 0x01;
+                } else {
+                    //nothing
                 }
-                else{
-                    if (pulses[i][1] * RESOLUTION  > 1000) {
-                        //hwlib::cout << "1\n";
-                        streamA = streamA | 0x01;
-                        streamA = streamA << 1;
+            } else {
+                if (pulses[i][1] * RESOLUTION > 1000) {
+                    //hwlib::cout << "1\n";
+                    streamA = streamA | 0x01;
+                    streamA = streamA << 1;
 
-                    }
-                    else if(pulses[i][1] * RESOLUTION < 1000 ) {
-                        //hwlib::cout << "0\n";
-                        streamA = streamA << 1;
-
-                    }
+                } else if (pulses[i][1] * RESOLUTION <= 1000) {
+                    //hwlib::cout << "0\n";
+                    streamA = streamA << 1;
 
                 }
+
             }
+        }
 
     }
     //start het decoderen van de 2 bytes
+
     decode_stream(streamA, streamB);
 }
 
@@ -155,40 +168,41 @@ void IRReceiver::start_decoding_data(void) {
 
 
 
-void IRReceiver::decode_spelleider(unsigned char a , unsigned char b, unsigned char c){
-
-    if(a == 0 && b == 0){
-        //printf("\ngame start  send\n");
-        //start game commando ontvangen
 
 
-    }
-    else if(a == 0){
-        if(check_time_bit(b)){
+void IRReceiver::write_detected_ir(unsigned char a, unsigned char b, unsigned char c) {
 
-            //printf("\noverige data\n");
-            //overige data ontvangen
+    if (speler > 0) {
+        game.shot(a, b);
+        //hwlib::cout << "\nnormal player shot received%d\n";
+    } else if (a == 0 && b == 0) {
+         game.enable();
+       // hwlib::cout << "\ngame start command  received\n";
+    } else {
+        if (a == 0) {
+            if (check_time_bit(b)) {
+                game.setPlayerId(b - 16);
+                game.setWeapon((Weapons) c);
+               // hwlib::cout << "\nweappon and player id command  received\n";
+            } else {
+                game.setTime(b);
+               // hwlib::cout << "\ngametime command received " << b + '0' << "\n";
+            }
         }
-        else{
-            //printf("\ntime data send %d\n", b);
-            //game time commando ontvangen
-        }
-    }
-    else{
-        //normale speler normale data
+
     }
 
 
+    //hwlib::cout << "\nspeler " << a << "\ndata  " << b << "\ncontrol  " << c << "\n";
 }
 
 //deze functie moet in gamecontroller om te bepalen welke actie moet worden ondernomen decode spelleider maakt gebruik van check_time_bit
 //want nadat shot_data verstuurt wrdt naar game controller wordt daar nagegaan of het een standaard shot of een commando is
-char IRReceiver::check_time_bit(const char stream){
-    char hold = stream;
-    if(( hold << 3) & 0x80){
+
+char IRReceiver::check_time_bit(const char stream) {
+    if (stream & 0b00010000) {
         return 1;
-    }
-    else{
+    } else {
         return 0;
 
     }
@@ -196,114 +210,119 @@ char IRReceiver::check_time_bit(const char stream){
 }
 
 
-void IRReceiver::write_detected_ir(unsigned char a , unsigned char b, unsigned char c){
-    /*struct shot {
-        char speler;
-        char data;
-        char control;
-    }shot_data;
-
-    shot_data.speler  = a;
-    shot_data.data    = b;
-    shot_data.control = c;
-    */
-    //channel.write(shot_data);
-
-
-    hwlib::cout<< "\nspeler " << a << "\ndata  " << b << "\ncontrol  " << c << "\n";
-}
-
-
-void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
-
+void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB) {
+    speler = 0;
+    data = 0;
+    control = 0;
     //decodeer de 2 bytes
+   // hwlib::cout << "binary received \n";
+    //print_binary(streamA, 8);
+    //print_binary(streamB, 8);
+    //hwlib::cout << "\n";
 
 
-    for(int y = 1; y < 6; y++){
-        if(((streamA << y) & 0x80) && y == 5){
+    for (int y = 1; y < 6; y++) {
+        if (((streamA << y) & 0x80) && y == 5) {
             speler = speler | 0x01;
+
             //printf("speler_end A1\n");
-        }
-        else if((streamA << y) & 0x80 ){
+        } else if ((streamA << y) & 0x80) {
             speler = speler | 0x01;
             speler = speler << 1;
+
             //printf("speler A1\n");
-        }
-        else{
-            if(y == 5){
+        } else {
+            if (y == 5) {
                 //printf("speler_end A0\n");
-            }
-            else{
+
+            } else {
                 speler = speler << 1;
+
                 //printf("speler A0\n");
             }
         }
     }
-   // printf("\n%d speler\n\n", speler);
+    // printf("\n%d speler\n\n", speler);
 
-    for(int y = 6; y < 11; y++){
-        if(y > 7){
-            if(((streamB << (y-8)) & 0x80) && y == 10 ){
+    for (int y = 6; y < 11; y++) {
+        if (y > 7) {
+            if (((streamB << (y - 8)) & 0x80) && y == 10) {
                 data = data | 0x01;
-               // printf("data_end B1\n");
-            }
-            else if((streamB << (y-8)) & 0x80 ){
+                // printf("data_end B1\n");
+            } else if ((streamB << (y - 8)) & 0x80) {
                 data = data | 0x01;
                 data = data << 1;
                 //printf("data B1\n");
-            }
-            else{
-                if(y == 10){
+            } else {
+                if (y == 10) {
                     //printf("data_end B0\n");
-                }
-                else{
+                } else {
                     data = data << 1;
                     //printf("data B0\n");
                 }
 
             }
-        }
-        else{
-            if((streamA << y) & 0x80 ){
+        } else {
+            if ((streamA << y) & 0x80) {
                 data = data | 0x01;
                 data = data << 1;
                 //printf("data A1\n");
-            }
-            else{
+            } else {
                 data = data << 1;
                 //printf("data A0\n");
             }
         }
     }
 
-   // printf("\n%d data\n\n", data);
+    //printf("\n%d data\n\n", data);
 
 
-    for(int y = 11; y < 16; y++){
-        if(((streamB << (y-8)) & 0x80) && y == 15){
+    for (int y = 11; y < 16; y++) {
+        if (((streamB << (y - 8)) & 0x80) && y == 15) {
             control = control | 0x01;
             //printf("control_end B1\n");
-        }
-        else if((streamB << (y-8)) & 0x80 ){
+        } else if ((streamB << (y - 8)) & 0x80) {
             control = control | 0x01;
             control = control << 1;
             //printf("control B1\n");
-        }
-        else{
-            if(y == 15){
+        } else {
+            if (y == 15) {
                 //printf("control_end B0\n");
-            }
-            else{
+            } else {
                 control = control << 1;
                 //printf("control B0\n");
             }
         }
     }
 
-    //
+   // hwlib::cout << "print_binaries of speler ";
+    //print_binary(speler, 8);
+    //hwlib::cout << "\n";
+    //hwlib::cout << "print_binaries of data ";
+    //print_binary(data, 8);
+   // hwlib::cout << "\n";
+   // hwlib::cout << "print_binaries of control ";
+    //print_binary(control, 8);
+   // hwlib::cout << "\n";
+    //hwlib::cout<< "\nspeler " << a << "\ndata  " << b << "\ncontrol  " << c << "\n";
     write_detected_ir(speler, data, control);
 
 
     // hier komt iets van channel.write shot data
 
 }
+
+void IRReceiver::print_binary(char print, int lenght) {
+
+    for (int h = 0; h < lenght; h++) {
+        if ((print << h) & 0x80) {
+            //std::cout<< "1";
+            hwlib::cout << "1";
+        } else {
+            hwlib::cout << "0";
+            //printf("0");
+        }
+    }
+    //printf("\n");
+}
+

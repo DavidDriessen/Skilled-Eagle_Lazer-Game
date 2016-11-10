@@ -10,7 +10,7 @@
 #include "DisplayController.hpp"
 #include "GameController.hpp"
 
-#define RESOLUTION 200 //1200
+#define RESOLUTION 100 //1200
 #define MAXPULSE 17800 / RESOLUTION
 #define MINPULSE 400 / RESOLUTION
 #ifndef IRdebuglevel
@@ -39,9 +39,9 @@ class IRReceiver : public rtos::task<> {
     ///
     GameController & game;
 
-#if debug > 0
+//#if IRdebuglevel > 0
     void printpulses();
-#endif
+//#endif
     ///
     ///main function used by rtos.
     ///
@@ -56,15 +56,11 @@ public:
             ir(tsop_signal),
             interval(this, "IRReceiver_interval"),
             game(game) {};
-    ///
-    /// this function takes the speler data and control variabels en writes them in to
-    /// a shot struct which is send to the controller.
-    ///
-    void write_detected_ir(unsigned char a , unsigned char b, unsigned char c);
+
     ///
     ///this function is used to differentiate between the game master and normal player.
     ///
-    void decode_spelleider( unsigned char a , unsigned char b, unsigned char c);
+    void write_detected_ir(unsigned char a , unsigned char b, unsigned char c);
     ///
     /// this function is used to check if bit 5 of data is set.
     /// if this bit is set and player is 0 it states as an extra command.
@@ -80,7 +76,9 @@ public:
     ///this function takes the printpulses array created by main
     ///and creates 2 bytes which hold the values contained in the IR bitStream.
     ///
+    void print_binary(char print, int lenght);
     void start_decoding_data(void);
+
 };
 
 
