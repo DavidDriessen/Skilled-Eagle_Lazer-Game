@@ -3,6 +3,10 @@
 //
 
 #include "GameController.hpp"
+//! Game controller
+/**
+ * States that the GameController has.
+ */
 enum State{
     shoot,
     waiting,
@@ -10,7 +14,9 @@ enum State{
     shot,
     reloading
 };
-
+/**
+ * Main function containing the 5 states in which the player can be.
+ */
 void GameController::main() {
     State currentState = waiting;
     while(1) {
@@ -106,47 +112,74 @@ void GameController::main() {
         }
     }
 }
-
+/**
+ * Function called if player is hit. Adds score in array according to weaponPower.
+ * @param playerId the ID of the player hitting you.
+ * @param weaponPower the amount of points added to your score.
+ */
 void GameController::shot(int playerId, int weaponPower) {
     shot_flag.set();
     shot_timer.set(10 * rtos::s);
     score[playerId - 1] = weaponPower;
 }
-
+/**
+ * Function called to start the game and change state to waiting and start the game time.
+ */
 void GameController::enable() {
     game_start.set();
     timer.start(gameTime);
 }
-
+/**
+ * Function called to stop the game and change state to disabled.
+ */
 void GameController::disable() {
     game_stop.set();
 }
-
+/**
+ * Sets flag to change state when button is pressed.
+ */
 void GameController::buttonPressed(){
     button_pressed.set();
 }
-
+/**
+ * Sets flag to change state when button released.
+ */
 void GameController::buttonReleased(){
     button_released.set();
 }
-
+/**
+ * returns current gamemode.
+ * @return gamemode is the current gamemode.
+ */
 Gamemodes GameController::getGamemode(){
     return gamemode;
 }
-
+/**
+ * returns current weapon used.
+ * @return weapon is the current weapon.
+ */
 Weapons GameController::getWeapon() {
     return weapon;
 }
-
+/**
+ * Sets the current weapon in this class.
+ * @param weapon is an Enum from the class Weapons.
+ */
 void GameController::setWeapon(Weapons weapon){
     this->weapon = weapon;
 
 }
-
+/**
+ * Sets the current gamemode in this class.
+ * @param gamemode is an Enum from the class Gamemode.
+ */
 void GameController::setGamemode(Gamemodes gamemode) {
     this->gamemode = gamemode;
 }
-
+/**
+ * Sets the current player ID in this class.
+ * @param playerId is an int used to identify the player.
+ */
 void GameController::setPlayerId(int playerId){
     this->playerId = playerId;
 }
