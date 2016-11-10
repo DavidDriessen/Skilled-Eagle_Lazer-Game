@@ -25,7 +25,7 @@ class GameController : public rtos::task<>{
         IRSender & irSender;
         Weapons weapon;
         Gamemodes gamemode;
-        int playerId;
+        int playerId = 0;
         int score[31];
         int bullets = 15;
         unsigned int gameTime;
@@ -36,6 +36,7 @@ class GameController : public rtos::task<>{
         rtos::flag button_released;
         rtos::timer shot_timer;
         rtos::timer reload_timer;
+        rtos::timer fire_timer;
     public:
         GameController(GameTimeController & timer,
                        SpeakerController & speaker,
@@ -55,7 +56,8 @@ class GameController : public rtos::task<>{
                 button_pressed(this, "button_pressed"),
                 button_released(this, "button_released"),
                 shot_timer(this, "shot_timer"),
-                reload_timer(this, "reload_timer")
+                reload_timer(this, "reload_timer"),
+                fire_timer(this, "fire_timer")
         {};
         void shot(int playerId, int weaponPower);
         void disable();
