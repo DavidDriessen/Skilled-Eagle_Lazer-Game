@@ -63,49 +63,53 @@ void IRSender::main() {
 
 
 void IRSender::main() {
-    while(1) {
+    while (1) {
         rtos::event evt = wait(Send_ir);
         if (evt == Send_ir) {
 
             encode_stream(speler.read(), data.read(), control.read());
 
             for (int h = 0; h < 8; h++) {
-                if ((streamA << h) & 0x80)
+                if ((streamA << h) & 0x80){
                     send[h] = 1;
+                }
                 else {
                     send[h] = 0;
                 }
             }
 
             for (int h = 8; h < 16; h++) {
-                if ((streamB << (h - 8)) & 0x80)
+                if ((streamB << (h - 8)) & 0x80) {
                     send[h] = 1;
+                }
                 else {
                     send[h] = 0;
                 }
             }
+            //send twice
+            for (int z = 0; z < 2; z++) {
+                for (int i = 0; i < 16; i++) {
+                    if (send[i]) {
+                        ir.set(1);
+                        interval.set(1600);
+                        wait(interval);
+                        ir.set(0);
+                        interval.set(800);
+                        wait(interval);
+                    }
+                    else {
 
-            for (int i = 0; i < 16; i++) {
-                if (send[i]) {
-                    ir.set(1);
-                    interval.set(1600);
-                    wait(interval);
-                    ir.set(0);
-                    interval.set(800);
-                    wait(interval);
+                        ir.set(1);
+                        interval.set(800);
+                        wait(interval);
+
+                        ir.set(0);
+                        interval.set(1600);
+                        wait(interval);
+                    }
                 }
-                else {
-
-                    ir.set(1);
-                    interval.set(800);
-                    wait(interval);
-
-                    ir.set(0);
-                    interval.set(1600);
-                    wait(interval);
-                }
+                hwlib::wait_ms(3);
             }
-            hwlib::wait_ms(3);
         }
     }
 }

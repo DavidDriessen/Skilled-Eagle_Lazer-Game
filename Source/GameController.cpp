@@ -16,6 +16,26 @@ enum State{
 };
 /**
  * Main function containing the 5 states in which the player can be.
+ *
+ * When GameController is started the first state is disabled. If the flag game_start is set the state switches to waiting and it writes data to
+ * the pools containing playerId and weapon in IRSender.
+ *
+ * When state is waiting the game can be stopped with flag game_stop, a hit can be registered with flag shot_flag or a shot can be fired with flag
+ * button_pressed. If shot_flag is set the controller will tell the display and speaker to display that the player is hit and play a sound and change the
+ * state to shot. If button_pressed is set the state changes to shoot, then checks the bullet count. If there are bullets available to shoot it
+ * will tell the IRSender to fire, speaker to play a sound, display to refresh the bullet count, decrease the bullet count and set the fire_timer
+ * so the player cant continuously fire. If no bullets are available the state changes to reloading en the timer reload_timer is started.
+ *
+ * When state is shot the game can be stopped with flag game_stop or the player can "come back alive" when the shot_timer is finished. When shot
+ * timer is finished the state changes to waiting and the display is updated to clear the hit message.
+ *
+ * When state is shoot the game can be stopped with flag game_stop, a hit can be registered with flag shot_flag, the button_released flag can be
+ * set to indicate that the fire button is released or another shot can be fired when fire_timer is finished. If no bullets available it changes to
+ * state reloading.
+ *
+ * When state is reloading the game can be stopped with flag game_stop, a hit can registerd with flag shot_flag or the state can change back to
+ * waiting when reload_timer is finished. When this happens the player is also given 15 bullets.
+ *
  */
 void GameController::main() {
     State currentState = waiting;
@@ -25,6 +45,8 @@ void GameController::main() {
             case disabled:
                 if(evt == game_start) {
                     currentState = waiting;
+                    irSender.write_speler((unsigned char) playerId);
+                    irSender.write_data((unsigned char) weapon);
                 }
                 break;
             case waiting:
@@ -40,11 +62,9 @@ void GameController::main() {
                     currentState = shoot;
                     if(bullets != 0){
                         bullets --;
-                        //irSender.fire((char) playerId, weapon);
+                        irSender.fire();
                         speaker.shoot();
-                        hwlib::cout << "ghvdjhksghkjsg";
                         display.setBullets(bullets);
-                        hwlib::cout << "ghvdjhksghkjsg";
                         fire_timer.set(1 * rtos::s);
                     }
                     if(bullets == 0){
@@ -71,7 +91,6 @@ void GameController::main() {
                     speaker.hit();
                 }
                 if(evt == button_released){
-                    hwlib::cout << "ghvdjh-ghkjsg";
                     currentState = waiting;
                 }
                 if(evt == game_stop){
@@ -80,7 +99,7 @@ void GameController::main() {
                 if(evt == fire_timer){
                     if(bullets != 0){
                         bullets --;
-                        //irSender.fire(playerId, weapon);
+                        irSender.fire();
                         speaker.shoot();
                         display.setBullets(bullets);
                         fire_timer.set(1 * rtos::s);

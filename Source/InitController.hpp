@@ -7,6 +7,7 @@
 
 #include "Weapons.hpp"
 #include "hwlib.hpp"
+#include "IRSender.hpp"
 
 class InitController{
 private:
@@ -14,8 +15,16 @@ private:
     int weapon  = 0;
     int command = 0;
     int data[3];
+    IRSender & send;
 public:
 
+    //! The constructor
+
+    /**
+     * It gets IRSender because it has to send the data gotten from KeyPadController.
+     * */
+
+    InitController(IRSender & send):send(send) {};
     void PlayerGetter(int player);
     void WeaponGetter(int weapon);
     void CommandGetter(int command);
