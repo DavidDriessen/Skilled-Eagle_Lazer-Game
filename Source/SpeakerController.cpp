@@ -3,19 +3,24 @@
 //
 
 #include "SpeakerController.hpp"
+//! The main
+/**
+ * The main has the sound and it's player in it.
+ * It has a wait that waits on the shoot and hit flag.
+ * */
 void SpeakerController::main() {
 
     while(1) {
-        //beep( 20000, 200000, 990 );
+
         rtos::event evt = wait(ShootFlag + HitFlag);
 
         if (evt == ShootFlag) {
             for (int i = 0; i < 200; i++) {
                 lsp.set(1);
-                SpeakerTimer.set(hwlib::random_in_range(200, 400) * rtos::us);
+                SpeakerTimer.set(hwlib::random_in_range(500, 1000) * rtos::us);
                 wait(SpeakerTimer);
                 lsp.set(0);
-                SpeakerTimer.set(hwlib::random_in_range(100, 500) * rtos::us);
+                SpeakerTimer.set(hwlib::random_in_range(500, 1000) * rtos::us);
                 wait(SpeakerTimer);
             }
         }
@@ -37,28 +42,11 @@ void SpeakerController::main() {
     }
 }
 
-
-void SpeakerController::await( long long int t ){
-    while( t > hwlib::now_us() ){}
-}
-
-/*void SpeakerController::beep(int f, int d, int fd = 1000){
-    auto t = hwlib::now_us();
-    auto end = t + d;
-    while( end > hwlib::now_us() ){
-        auto p = 500000 / f;
-        f = f * fd / 1000;
-        lsp.set( 1 );
-        await( t += p );
-        lsp.set( 0 );
-        await( t += p );
-    }
-}*/
-
+//! Set's the shoot flag to play the shoot sound.
 void SpeakerController::shoot(){
     ShootFlag.set();
 }
-
+//! Set's the hit flag to play the hit sound.
 void SpeakerController::hit(){
     HitFlag.set();
 }
