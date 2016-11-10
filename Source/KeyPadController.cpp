@@ -19,6 +19,7 @@ void KeyPadController::main() {
         auto c = keypad.getc();
 
         if (c == 'A') {
+            display.playerEdit(0);
             while (a_condition == 0) {
                 auto t = keypad.getc();
                 if (t >= '0' && t <= '9') {
@@ -35,10 +36,12 @@ void KeyPadController::main() {
             }
             init.PlayerGetter(array_to_intger(a_numbers, a_input_array_size));
         } else if (c == 'B') {
+            display.weaponEdit(0);
             auto t = keypad.getc();
             init.WeaponGetter(t - 48);
             display.weaponEdit(t - 48);
         } else if (c == 'C') {
+            display.commandEdit(0);
             while (c_condition == 0) {
                 auto t = keypad.getc();
                 if (t >= '0' && t <= '9') {

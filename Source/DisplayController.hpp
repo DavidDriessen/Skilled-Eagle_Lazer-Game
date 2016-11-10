@@ -30,6 +30,8 @@ class DisplayController : public rtos::task<> {
 public:
     DisplayController(unsigned int priority, const char *name, hwlib::glcd_oled_buffered &display);
 
+    void test();
+
     void setTime(int time);
 
     void setBullets(int number);
