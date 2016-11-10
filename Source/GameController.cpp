@@ -12,9 +12,9 @@ enum State{
 };
 
 void GameController::main() {
-    State currentState = disabled;
+    State currentState = waiting;
     while(1) {
-        rtos::event evt = wait(game_start + game_stop + button_released + button_pressed + shot_flag + shot_timer + reload_timer);
+        rtos::event evt = wait(game_start + game_stop + button_released + button_pressed + shot_flag + shot_timer + reload_timer + fire_timer);
         switch (currentState){
             case disabled:
                 if(evt == game_start) {
@@ -29,15 +29,17 @@ void GameController::main() {
                     currentState = State::shot;
                     display.hit();
                     speaker.hit();
-
                 }
                 if(evt == button_pressed){
                     currentState = shoot;
                     if(bullets != 0){
                         bullets --;
-                        irSender.fire(playerId, weapon);
+                        //irSender.fire((char) playerId, weapon);
                         speaker.shoot();
+                        hwlib::cout << "ghvdjhksghkjsg";
                         display.setBullets(bullets);
+                        hwlib::cout << "ghvdjhksghkjsg";
+                        fire_timer.set(1 * rtos::s);
                     }
                     if(bullets == 0){
                         currentState = reloading;
@@ -63,12 +65,27 @@ void GameController::main() {
                     speaker.hit();
                 }
                 if(evt == button_released){
+                    hwlib::cout << "ghvdjh-ghkjsg";
                     currentState = waiting;
                 }
                 if(evt == game_stop){
                     currentState = disabled;
                 }
+                if(evt == fire_timer){
+                    if(bullets != 0){
+                        bullets --;
+                        //irSender.fire(playerId, weapon);
+                        speaker.shoot();
+                        display.setBullets(bullets);
+                        fire_timer.set(1 * rtos::s);
+                    }
+                    if(bullets == 0){
+                        currentState = reloading;
+                        reload_timer.set(5 * rtos::s);
+                    }
+                }
                 break;
+
             case reloading:
                 if(evt == shot_flag)
                 {

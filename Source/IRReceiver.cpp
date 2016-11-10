@@ -300,5 +300,5 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB){
 
 
     // hier komt iets van channel.write shot data
-    
+
 }

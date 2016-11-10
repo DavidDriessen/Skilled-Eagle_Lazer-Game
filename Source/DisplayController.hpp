@@ -9,33 +9,28 @@
 #include "rtos.hpp"
 #include "Weapons.hpp"
 
+
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
-    int master = 0;
-    int time = 0;
-    int bullets = 0;
-    int weapon = 0;
-    int playerid = 0;
     bool hitBool = false;
 
     rtos::pool<int> time_pool;
     rtos::pool<int> bullets_pool;
     rtos::pool<int> weapon_pool;
     rtos::pool<int> playerid_pool;
+    rtos::pool<int> command_pool;
+    rtos::pool<int> master_pool;
     rtos::flag update;
 
     void main();
 
+    void mainMaster();
+
 public:
-    DisplayController(unsigned int priority, const char *name, hwlib::glcd_oled_buffered &display) :
-            task(priority, name),
-            display(display),
-            time_pool("Display_time_pool"),
-            bullets_pool("Display_bullets_pool"),
-            weapon_pool("Display_weapon_pool"),
-            playerid_pool("Display_playerid_pool"),
-            update(this, "Display_update") {};
+    DisplayController(unsigned int priority, const char *name, hwlib::glcd_oled_buffered &display);
+
+    void test();
 
     void setTime(int time);
 
@@ -51,13 +46,16 @@ public:
 
     void masterMenu();
 
-    void playerEdit(int *id);
+    void playerEdit(int id);
 
-    void commandEdit(int *command);
+    void commandEdit(int commandInput);
 
-    void weaponEdit(int weapon);
+    void weaponEdit(int weaponInput);
+
 
     void confirm();
+
+    void end();
 };
 
 #endif //SKILLED_EAGLE_DISPLAYCONTROLLER_H

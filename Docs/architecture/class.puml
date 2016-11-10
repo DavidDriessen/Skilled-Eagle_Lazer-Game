@@ -40,10 +40,6 @@ class IrSender <<controller>> {
 class ButtonController <<controller>> {
     -Button btn
     -GameController game
-    +setPlayerData(byte data[2])
-    +setWapen(wapen)
-    +disable()
-    +enable()
 }
 class SoundController <<controller>> {
     -Speaker speaker

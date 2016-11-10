@@ -25,7 +25,7 @@ void IRSender::main() {
         }
     }
 
-#if IRdebuglevel == 1
+#if IRdebuglevel > 0
     for (int j = 0; j < 16; ++j) {
         hwlib::cout << send[j];
     }
