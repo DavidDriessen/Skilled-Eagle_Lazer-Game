@@ -124,6 +124,7 @@ void IRSender::send_player_and_weapon(unsigned char player, unsigned char weapon
     speler.write(0);
     data.write(Phold);
     control.write(weapon);
+    Send_ir.set();
 };
 
 void IRSender::send_gametime(unsigned char gametime){
@@ -132,12 +133,14 @@ void IRSender::send_gametime(unsigned char gametime){
     speler.write(0);
     data.write(gHold);
     control.write(0);
+    Send_ir.set();
 };
 
 void IRSender::send_start_game(){
     speler.write(0);
     data.write(0);
     control.write(0);
+    Send_ir.set();
 };
 
 

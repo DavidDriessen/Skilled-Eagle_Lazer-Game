@@ -41,6 +41,7 @@ void KeyPadController::main() {
             }
             init.PlayerGetter(array_to_intger(a_numbers, a_input_array_size));
             display.masterMenu();
+            a_input_array_size=0;
         } else if (c == 'B') {
             display.weaponEdit(0);
             auto t = keypad.getc();
@@ -64,21 +65,25 @@ void KeyPadController::main() {
                 wait(KeyTimer);
             }
 
-            init.CommandGetter(array_to_intger(c_numbers, c_input_array_size));
             c_condition = 0;
 
             while (c_condition == 0) {
                 display.confirm();
                 auto t = keypad.getc();
                 if (t == '#') {
+                    init.CommandGetter(array_to_intger(c_numbers, c_input_array_size));
                     display.end();
-
                     c_condition = 1;
-
+                } else
+                if (t == '*') {
+                    display.end();
+                    c_condition = 1;
                 }
                 KeyTimer.set(100 * rtos::ms);
                 wait(KeyTimer);
             }
+            c_input_array_size=0;
+            c_condition = 0;
         } else if (c == 'D') {
             display.masterMenu();
         }
