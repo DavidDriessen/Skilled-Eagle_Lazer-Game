@@ -50,7 +50,7 @@ public:
 
     void commandEdit(int commandInput);
 
-    void weaponEdit(int weaponInput);
+    void weaponEdit(int weapon_ID);
 
 
     void confirm();

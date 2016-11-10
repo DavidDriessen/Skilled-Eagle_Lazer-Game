@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD
   ['send',['send',['../class_i_r_sender.html#a433aa8b7851bb491074aa399bc1da421',1,'IRSender']]],
   ['setbullets',['setBullets',['../class_display_controller.html#a1f29478656bdf33aa77aef511e48136a',1,'DisplayController']]],
   ['setgamemode',['setGamemode',['../class_game_controller.html#af2ec9ad80d22b4e855bcac508cd1cd78',1,'GameController']]],
@@ -14,4 +15,11 @@ var searchData=
   ['start_5fdecoding_5fdata',['start_decoding_data',['../class_i_r_receiver.html#a7cbd73592c1ced9b9a9c5b34b2565ad7',1,'IRReceiver']]],
   ['stop',['stop',['../class_game_time_controller.html#a4e6eb5473483e378f5b5c438b9fd2fe1',1,'GameTimeController']]],
   ['streama',['streamA',['../class_i_r_sender.html#af25b5ec1cad9bff2f40f52e378936560',1,'IRSender']]]
+=======
+  ['weapongetter',['WeaponGetter',['../class_init_controller.html#a553f6c712ccaac5c658599bbd9a9f9f9',1,'InitController']]],
+  ['write_5fcontrol',['write_control',['../class_i_r_sender.html#a9d5f81ae8147cbdfc37a8238df581dee',1,'IRSender']]],
+  ['write_5fdata',['write_data',['../class_i_r_sender.html#a1c1c8f1b6b52d2ed2dc61a582b829980',1,'IRSender']]],
+  ['write_5fdetected_5fir',['write_detected_ir',['../class_i_r_receiver.html#a378d521e7ec2050505670c67e6015d58',1,'IRReceiver']]],
+  ['write_5fspeler',['write_speler',['../class_i_r_sender.html#af7d4035628050aff84a6dec47db6e0e8',1,'IRSender']]]
+>>>>>>> origin/master
 ];
