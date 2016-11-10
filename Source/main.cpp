@@ -1,3 +1,16 @@
+/**
+ * \mainpage Lasergaming on arduino using RTOS
+ *
+ * \section intro Introduction
+ *
+ * We have made this project as an assignment for the Hogeschool Utrecht. We used the RTOS library of Wouter van Ooijen.\n
+ * With this we have created over a span of time of 3 weeks a lasergame prototype/proof of concept on the arduino\n
+ * due. With this project we also did research on several other RTOS systems. Our conclusion was that the RTOS provided\n
+ * by the HU was the best one to use in this project. We also have made a solution architecture for this system. This\n
+ * contains a state transition diagram, class diagram, concurrency diagram and a task structure.\n
+ *\n
+ * Made by: David Driessen, Jeremy Ruizenaar, Max Beunk and Mike Hilhorst.
+ */
 #include "bmptk.h"
 #include "hwlib.hpp"
 #include "rtos.hpp"
