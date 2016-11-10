@@ -32,13 +32,13 @@ public:
 
     void test();
 
-    void setTime(int time);
+    void setTime(int time_in_minutes);
 
-    void setBullets(int number);
+    void setBullets(int number_of_bullets);
 
     void setWeapon(Weapons weapon);
 
-    void setPlayerId(int player);
+    void setPlayerId(int player_ID);
 
     void hit();
 

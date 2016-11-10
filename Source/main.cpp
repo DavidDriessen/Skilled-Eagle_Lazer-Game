@@ -64,6 +64,8 @@ int main() {
     auto receiver = IRReceiver(tsop_signal, 0, "IRReceiver", *gameController);
     auto keypad = KeyPadController(5, "KeyPadController", init, key, display);
 
+    display.test();
+
     rtos::run();
     return 69;
 }
