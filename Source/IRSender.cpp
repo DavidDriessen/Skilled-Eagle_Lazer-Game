@@ -126,7 +126,19 @@ void IRSender::send_player_and_weapon(unsigned char player, unsigned char weapon
     control.write(weapon);
 };
 
+void IRSender::send_gametime(unsigned char gametime){
+    unsigned char gHold = gametime;
+    gHold = gHold | 0x10;
+    speler.write(0);
+    data.write(gHold);
+    control.write(0);
+};
 
+void IRSender::send_start_game(){
+    speler.write(0);
+    data.write(0);
+    control.write(0);
+};
 
 
 void IRSender::write_speler( unsigned char speler_data){

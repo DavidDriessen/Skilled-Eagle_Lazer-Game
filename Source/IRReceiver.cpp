@@ -165,6 +165,7 @@ void IRReceiver::decode_spelleider(unsigned char a , unsigned char b, unsigned c
     }
     else if(a == 0){
         if(check_time_bit(b)){
+
             //printf("\noverige data\n");
             //overige data ontvangen
         }

@@ -82,6 +82,14 @@ public:
     /// \param player
     void send_player_and_weapon(unsigned char player, unsigned char weapon);
     ///
+    ///this function is used by the game master to send the game time
+    /// \param player
+    void send_gametime(unsigned char gametime);
+    ///
+    ///this function is used by the game master to send the start game command
+    /// \param player
+    void send_start_game()       ;
+    ///
     /// this function is used to fire a shot by setting the send_ir flag.
     ///
     void fire();
