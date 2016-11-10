@@ -186,7 +186,6 @@ DisplayController::DisplayController(unsigned int priority, const char *name, hw
         weapon_pool("Display_weapon_pool"),
         playerid_pool("Display_playerid_pool"),
         update(this, "Display_update") {
-#ifdef Display_test
     display.clear();
     display.flush();
     hwlib::wait_ms(60*1);
@@ -199,5 +198,4 @@ DisplayController::DisplayController(unsigned int priority, const char *name, hw
     hwlib::wait_ms(60*3);
     display.clear();
     display.flush();
-#endif
 }
