@@ -32,7 +32,7 @@ int main() {
 
     //start speaker
     auto lsp = target::pin_out(target::pins::d7);
-    auto Speaker = SpeakerController(lsp);
+
     //end speaker
 
     //ir start
@@ -52,7 +52,8 @@ int main() {
     auto btn = target::pin_in(target::pins::d6);
 
     //start rtos
-    auto display = DisplayController(6, "DisplayController", oled);
+    auto Speaker = SpeakerController(6,"SpeakerController", lsp);
+    auto display = DisplayController(7, "DisplayController", oled);
     GameController *gameController = 0;
     auto sender = IRSender(ir, 1, "IRSender");
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController, display);

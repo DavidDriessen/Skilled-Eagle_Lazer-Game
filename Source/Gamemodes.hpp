@@ -9,8 +9,6 @@ enum class Gamemodes {
     Deathmatch    = 1,
     One_VS_One    = 2
 
-
-
 };
 
 #endif //SKILLED_EAGLE_GAMEMODES_HPP

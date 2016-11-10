@@ -7,6 +7,8 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "bmptk.h"
+//! Speakercontroller class / rtos task.
+/** This class contains all the logic and sounds to play*/
 
 class SpeakerController : public rtos::task<>{
 private:
@@ -18,8 +20,12 @@ private:
     rtos::flag HitFlag;
     void main();
 public:
-    SpeakerController(hwlib::pin_out & lsp):
-    lsp(lsp), SpeakerTimer(this, "SpeakerTimer"), ShootFlag(this, "ShootFlag"), HitFlag(this ,"HitFlag") {};
+    //! The constructor.
+    /*!
+      A more elaborate description of the constructor.
+    */
+    SpeakerController(unsigned int priority, const char* name, hwlib::pin_out & lsp):
+    task(priority, name),  lsp(lsp), SpeakerTimer(this, "SpeakerTimer"), ShootFlag(this, "ShootFlag"), HitFlag(this ,"HitFlag") {};
 
 
     void shoot();
