@@ -41,6 +41,12 @@ class IRSender : public rtos::task<> {
     rtos::pool< unsigned char > control;
     ///
     ///main function used by rtos.
+    ///this function waits for the send_ir flagg
+    ///when set  creates a bitstream based on the data to send provided by gamecontroller or initcontroller
+    ///then sends this bitstream through the IRled.
+    ///
+    /// nb. this works only if send by RTOS to a non RTOS running board and vice versa.
+    /// reason for the unspecified behavior is unknown
     ///
 
     void main();
