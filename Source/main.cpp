@@ -27,7 +27,7 @@ int main() {
     auto in_port = hwlib::port_in_from_pins(in0, in1, in2, in3);
     auto matrix = hwlib::matrix_of_switches(out_port, in_port);
     auto key = hwlib::keypad<16>(matrix, "123A456B789C*0#D");
-    auto init = InitController();
+
     //end key
 
     //start speaker
@@ -56,6 +56,7 @@ int main() {
     auto display = DisplayController(7, "DisplayController", oled);
     GameController *gameController = 0;
     auto sender = IRSender(ir, 1, "IRSender");
+    auto init = InitController(sender);
     auto gameTimer = GameTimeController(4, "GameTimeController", gameController, display);
     auto temp = GameController(gameTimer, Speaker, display, sender, 3, "GameController");
     auto button = ButtonController(2, "ButtonController", temp, btn);

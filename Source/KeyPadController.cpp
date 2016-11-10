@@ -18,9 +18,14 @@ void KeyPadController::main() {
     while (1) {
         auto c = keypad.getc();
 
+        /** main gets the player ID if A is pressed, B gets The Weapon ID,
+         * C gets the command and D sets the user in Game master mode.
+         * A and C is storte in a array first, later this is made in a in int
+         * by Array_to_intger function.
+         * */
         if (c == 'A') {
             display.playerEdit(0);
-            while (a_condition == 0) {              //! 
+            while (a_condition == 0) {
                 auto t = keypad.getc();
                 if (t >= '0' && t <= '9') {
                     a_numbers[a_n] = t - '0';
