@@ -105,7 +105,7 @@ void IRReceiver::start_decoding_data(void) {
         //hwlib::cout << "wrong data received\n";
         return;
     } else {
-       // hwlib::cout << "error\n";
+        // hwlib::cout << "error\n";
         return;
     }
 
@@ -176,22 +176,20 @@ void IRReceiver::write_detected_ir(unsigned char a, unsigned char b, unsigned ch
         game.shot(a, b);
         //hwlib::cout << "\nnormal player shot received%d\n";
     } else if (a == 0 && b == 0) {
-         game.enable();
-       // hwlib::cout << "\ngame start command  received\n";
+        game.enable();
+        // hwlib::cout << "\ngame start command  received\n";
     } else {
         if (a == 0) {
             if (check_time_bit(b)) {
                 game.setPlayerId(b - 16);
                 game.setWeapon((Weapons) c);
-               // hwlib::cout << "\nweappon and player id command  received\n";
+                // hwlib::cout << "\nweappon and player id command  received\n";
             } else {
                 game.setTime(b);
-               // hwlib::cout << "\ngametime command received " << b + '0' << "\n";
+                // hwlib::cout << "\ngametime command received " << b + '0' << "\n";
             }
         }
-
     }
-
 
     //hwlib::cout << "\nspeler " << a << "\ndata  " << b << "\ncontrol  " << c << "\n";
 }
@@ -215,7 +213,7 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB) {
     data = 0;
     control = 0;
     //decodeer de 2 bytes
-   // hwlib::cout << "binary received \n";
+    // hwlib::cout << "binary received \n";
     //print_binary(streamA, 8);
     //print_binary(streamB, 8);
     //hwlib::cout << "\n";
@@ -295,15 +293,15 @@ void IRReceiver::decode_stream(unsigned char streamA, unsigned char streamB) {
         }
     }
 
-   // hwlib::cout << "print_binaries of speler ";
+    // hwlib::cout << "print_binaries of speler ";
     //print_binary(speler, 8);
     //hwlib::cout << "\n";
     //hwlib::cout << "print_binaries of data ";
     //print_binary(data, 8);
-   // hwlib::cout << "\n";
-   // hwlib::cout << "print_binaries of control ";
+    // hwlib::cout << "\n";
+    // hwlib::cout << "print_binaries of control ";
     //print_binary(control, 8);
-   // hwlib::cout << "\n";
+    // hwlib::cout << "\n";
     //hwlib::cout<< "\nspeler " << a << "\ndata  " << b << "\ncontrol  " << c << "\n";
     write_detected_ir(speler, data, control);
 

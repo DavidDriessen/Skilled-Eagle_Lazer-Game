@@ -12,7 +12,7 @@ void GameTimeController::start(unsigned long time){
     this->time = time;
     gameTime.set(time);
     updateTime.set(60 * rtos::s);
-
+    displayController.setTime((int) time);
 }
 /**
  * Stops the game that is running in the GameController.

@@ -65,7 +65,7 @@ void DisplayController::main() {
         if (hitBool) {
             middel << "\f"
                    << "  HIT" << "\n"
-                   << "" << "\n";
+                   << "         " << "\n";
         } else {
             if (bullets_pool.read() == 0) {
 
