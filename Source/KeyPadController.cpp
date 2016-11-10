@@ -41,7 +41,7 @@ void KeyPadController::main() {
             }
             init.PlayerGetter(array_to_intger(a_numbers, a_input_array_size));
             display.masterMenu();
-            a_input_array_size=0;
+            a_input_array_size=a_n=0;
         } else if (c == 'B') {
             display.weaponEdit(0);
             auto t = keypad.getc();
@@ -82,8 +82,7 @@ void KeyPadController::main() {
                 KeyTimer.set(100 * rtos::ms);
                 wait(KeyTimer);
             }
-            c_input_array_size=0;
-            c_condition = 0;
+            c_input_array_size=c_condition=c_n=0;
         } else if (c == 'D') {
             display.masterMenu();
         }
