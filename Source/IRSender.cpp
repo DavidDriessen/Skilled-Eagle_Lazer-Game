@@ -118,25 +118,16 @@ void IRSender::fire() {
     Send_ir.set();
 }
 
-/*
-void IRSender::make_send(){
-    for (int h = 0; h < 8; h++) {
-        if ((streamA << h) & 0x80)
-            send[h] == 1;
-        else {
-            send[h] == 0;
-        }
-    }
+void IRSender::send_player_and_weapon(unsigned char player, unsigned char weapon){
+    unsigned char Phold = player;
+    Phold = Phold | 0x10;
+    speler.write(0);
+    data.write(Phold);
+    control.write(weapon);
+};
 
-    for (int h = 8; h < 16; h++) {
-        if ((streamB << (h - 8)) & 0x80)
-            send[h] == 1;
-        else {
-            send[h] == 0;
-        }
-    }
-}
-*/
+
+
 
 void IRSender::write_speler( unsigned char speler_data){
     speler.write(speler_data);

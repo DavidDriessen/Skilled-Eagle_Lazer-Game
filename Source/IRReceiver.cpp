@@ -149,8 +149,12 @@ void IRReceiver::start_decoding_data(void) {
 }
 
 
-///deze functie moet in gamecontroller om te bepalen welke actie moet worden ondernomen
-///want nadat shot_data verstuurt wrdt naar game controller wordt daar nagegaan of het een standaard shot of een commando is
+//deze functie moet in gamecontroller om te bepalen welke actie moet worden ondernomen
+//want nadat shot_data verstuurt wrdt naar game controller wordt daar nagegaan of het een standaard shot of een commando is
+
+
+
+
 void IRReceiver::decode_spelleider(unsigned char a , unsigned char b, unsigned char c){
 
     if(a == 0 && b == 0){
@@ -176,8 +180,8 @@ void IRReceiver::decode_spelleider(unsigned char a , unsigned char b, unsigned c
 
 }
 
-///deze functie moet in gamecontroller om te bepalen welke actie moet worden ondernomen decode spelleider maakt gebruik van check_time_bit
-///want nadat shot_data verstuurt wrdt naar game controller wordt daar nagegaan of het een standaard shot of een commando is
+//deze functie moet in gamecontroller om te bepalen welke actie moet worden ondernomen decode spelleider maakt gebruik van check_time_bit
+//want nadat shot_data verstuurt wrdt naar game controller wordt daar nagegaan of het een standaard shot of een commando is
 char IRReceiver::check_time_bit(const char stream){
     char hold = stream;
     if(( hold << 3) & 0x80){

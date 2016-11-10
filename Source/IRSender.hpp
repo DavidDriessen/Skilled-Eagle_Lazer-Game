@@ -18,36 +18,36 @@ class IRSender : public rtos::task<> {
     rtos::timer interval;
     rtos::flag Send_ir;
     ///
-    /// streamA and StreamB are used to hold the 2 bytes to be send by the IRsender
-    /// they are set by calling ecode_stream(char, char, char)
+    /// streamA and StreamB are used to hold the 2 bytes to be send by the IRsender.
+    /// they are set by calling ecode_stream(char, char, char).
     ///
     unsigned char streamA;
     unsigned char streamB;
     ///
-    ///an array for holding the individual bits of streamA and streamB
+    ///an array for holding the individual bits of streamA and streamB.
     ///
     bool send[16];
     ///
-    ///pool to hold the speler
+    ///pool to hold the speler.
     ///
     rtos::pool< unsigned char > speler;
     ///
-    ///pool to hold the data
+    ///pool to hold the data.
     ///
     rtos::pool< unsigned char > data;
     ///
-    ///pool to hold the control
+    ///pool to hold the control.
     ///
     rtos::pool< unsigned char > control;
     ///
-    ///main function used by rtos
+    ///main function used by rtos.
     ///
 
     void main();
 
 public:
     ///
-    /// constructor
+    /// constructor.
     ///
     IRSender(hwlib::pin_out &ir, unsigned int priority, const char *name) :
             task(priority, name),
@@ -67,35 +67,36 @@ public:
 
     ///
     /// \param speler
-    ///this function writes speler in to the speler pool
+    ///this function writes speler in to the speler pool.
     void write_speler( unsigned char speler);
     ///
     /// \param data
-    ///this function writes data in to the data pool
+    ///this function writes data in to the data pool.
     void write_data(unsigned char data);
     ///
     /// \param control
-    /// this function writes control in to the control pool
+    /// this function writes control in to the control pool.
     void write_control(unsigned char control);
-
-
-
     ///
-    /// this function is used to fire a shot by setting the send_ir flag
+    ///this function is used by the game master to set the playerID of a player and the weapon of the player
+    /// \param player
+    void send_player_and_weapon(unsigned char player, unsigned char weapon);
+    ///
+    /// this function is used to fire a shot by setting the send_ir flag.
     ///
     void fire();
 
     ///
-    ///  this function is used to encode speler data and control into 2 bytes
+    ///  this function is used to encode speler data and control into 2 bytes.
     ///
     void encode_stream(char speler , char data, char control);
     ///
-    /// this function is used to print the 2 bytes containing the ir stream in binary format
+    /// this function is used to print the 2 bytes containing the ir stream in binary format.
     ///
     void print_encoded_stream(char a, char b);
     ///
-    /// this function is used by print_encoded_stream to print
-    /// it prints a single byte in binary format
+    /// this function is used by print_encoded_stream to print.
+    /// it prints a single byte in binary format.
     ///
     void print_binary(char print, int lenght);
 };
