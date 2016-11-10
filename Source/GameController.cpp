@@ -203,3 +203,7 @@ void GameController::setPlayerId(int playerId){
     this->playerId = playerId;
 }
 
+void GameController::setTime(int time) {
+    gameTime = time;
+}
+
