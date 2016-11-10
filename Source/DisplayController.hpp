@@ -13,6 +13,7 @@
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
+    int master = 1;
     int time = 0;
     int bullets = 0;
     int playerid = 0;
@@ -28,6 +29,8 @@ class DisplayController : public rtos::task<> {
     rtos::flag update;
 
     void main();
+
+    void mainMaster();
 
 public:
     DisplayController(unsigned int priority, const char *name, hwlib::glcd_oled_buffered &display);
