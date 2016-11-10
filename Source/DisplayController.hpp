@@ -13,19 +13,14 @@
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
-    int master = 0;
-    int time = 0;
-    int bullets = 0;
-    int playerid = 0;
-    int player = 0;
-    int weapon = 0;
-    int command = 0;
     bool hitBool = false;
 
     rtos::pool<int> time_pool;
     rtos::pool<int> bullets_pool;
     rtos::pool<int> weapon_pool;
     rtos::pool<int> playerid_pool;
+    rtos::pool<int> command_pool;
+    rtos::pool<int> master_pool;
     rtos::flag update;
 
     void main();

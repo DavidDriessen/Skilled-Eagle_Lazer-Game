@@ -21,11 +21,11 @@ void DisplayController::main() {
                                       hwlib::location(128, 32));
     auto bottom = hwlib::window_ostream(wbottom, font8);
     while (1) {
-        if(master > 0){
+        if (master_pool.read() > 0) {
             mainMaster();
         }
         top << "\f"
-            << "Time: " << time << "\n"
+            << "Time: " << time_pool.read() << "\n"
             << "______________" << "\n";
 
         if (hitBool) {
@@ -33,13 +33,20 @@ void DisplayController::main() {
                    << "  HIT" << "\n"
                    << "" << "\n";
         } else {
-            middel << "\f"
-                   << "             \n"
-                   << "Mag: " << bullets << "\n";
+            if (bullets_pool.read() == 0) {
+
+                middel << "\f"
+                       << "             \n"
+                       << "Mag: R\n";
+            } else {
+                middel << "\f"
+                       << "             \n"
+                       << "Mag: " << bullets_pool.read() << "\n";
+            }
         }
         bottom << "\f"
                << "______________\n"
-               << "ID: " << playerid << " W:" << weapon << "\n";
+               << "ID: " << playerid_pool.read() << " W:" << weapon_pool.read() << "\n";
         display.flush();
         wait(update);
     }
@@ -59,8 +66,8 @@ void DisplayController::mainMaster() {
     auto body = hwlib::window_ostream(wmiddel, font8);
 
     top << "\fmaster\n";
-    while (master > 0) {
-        if (master == 1) {
+    while (master_pool.read() > 0) {
+        if (master_pool.read() == 1) {
             top << "\f"
                 << "______________\n"
                 << "\n";
@@ -70,37 +77,37 @@ void DisplayController::mainMaster() {
                  << "B. Weapon\n"
                  << "C. Command\n"
                  << "______________\n";
-        } else if (master == 2) {
+        } else if (master_pool.read() == 2) {
             top << "\f"
                 << "______________" << "\n"
                 << "\n";
 
             body << "\f"
-                 << "Player: " << player << "\n"
+                 << "Player: " << playerid_pool.read() << "\n"
                  << "\n"
                  << "\n"
                  << "______________" << "\n";
-        } else if (master == 3) {
+        } else if (master_pool.read() == 3) {
             top << "\f"
                 << "______________" << "\n"
                 << "\n";
 
             body << "\f"
-                 << "Weapon: " << weapon << "\n"
+                 << "Weapon: " << weapon_pool.read() << "\n"
                  << "\n"
                  << "\n"
                  << "______________" << "\n";
-        } else if (master == 4) {
+        } else if (master_pool.read() == 4) {
             top << "\f"
                 << "______________" << "\n"
                 << "\n";
 
             body << "\f"
-                 << "Command: " << command << "\n"
+                 << "Command: " << command_pool.read() << "\n"
                  << "\n"
                  << "\n"
                  << "______________" << "\n";
-        } else if (master == 5) {
+        } else if (master_pool.read() == 5) {
             top << "\f"
                 << "______________" << "\n"
                 << "\n";
@@ -147,35 +154,35 @@ void DisplayController::hitClear() {
 }
 
 void DisplayController::masterMenu() {
-    master = 1;
+    master_pool.write(1);
     update.set();
 }
 
 void DisplayController::playerEdit(int id) {
-    player = id;
-    master = 2;
+    playerid_pool.write(id);
+    master_pool.write(2);
     update.set();
 }
 
 void DisplayController::weaponEdit(int weaponInput) {
-    weapon = weaponInput;
-    master = 3;
+    weapon_pool.write(weaponInput);
+    master_pool.write(3);
     update.set();
 }
 
 void DisplayController::commandEdit(int commandInput) {
-    command = commandInput;
-    master = 4;
+    command_pool.write(commandInput);
+    master_pool.write(4);
     update.set();
 }
 
 void DisplayController::confirm() {
-    master = 5;
+    master_pool.write(5);
     update.set();
 }
 
 void DisplayController::end() {
-    master = 0;
+    master_pool.write(0);
     update.set();
 }
 
@@ -189,14 +196,14 @@ DisplayController::DisplayController(unsigned int priority, const char *name, hw
         update(this, "Display_update") {
     display.clear();
     display.flush();
-    hwlib::wait_ms(60*1);
+    hwlib::wait_ms(60 * 1);
     for (int x = 0; x < 128; ++x) {
         for (int y = 0; y < 64; ++y) {
             display.write(hwlib::location(x, y));
         }
     }
     display.flush();
-    hwlib::wait_ms(60*3);
+    hwlib::wait_ms(60 * 3);
     display.clear();
     display.flush();
 }

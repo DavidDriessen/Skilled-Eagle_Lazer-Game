@@ -34,9 +34,11 @@ void GameController::main() {
                     currentState = shoot;
                     if(bullets != 0){
                         bullets --;
-                        irSender.fire(playerId, weapon);
+                        //irSender.fire((char) playerId, weapon);
                         speaker.shoot();
+                        hwlib::cout << "ghvdjhksghkjsg";
                         display.setBullets(bullets);
+                        hwlib::cout << "ghvdjhksghkjsg";
                         fire_timer.set(1 * rtos::s);
                     }
                     if(bullets == 0){
@@ -63,6 +65,7 @@ void GameController::main() {
                     speaker.hit();
                 }
                 if(evt == button_released){
+                    hwlib::cout << "ghvdjh-ghkjsg";
                     currentState = waiting;
                 }
                 if(evt == game_stop){
@@ -71,7 +74,7 @@ void GameController::main() {
                 if(evt == fire_timer){
                     if(bullets != 0){
                         bullets --;
-                        irSender.fire(playerId, weapon);
+                        //irSender.fire(playerId, weapon);
                         speaker.shoot();
                         display.setBullets(bullets);
                         fire_timer.set(1 * rtos::s);
