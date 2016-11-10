@@ -7,7 +7,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 #include "bmptk.h"
-//! Speakercontroller class / rtos task.
+//! SpeakerController class / rtos task.
 /** This class contains all the logic and sounds to play*/
 
 class SpeakerController : public rtos::task<>{

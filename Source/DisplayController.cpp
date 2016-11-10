@@ -14,6 +14,11 @@ DisplayController::DisplayController(unsigned int priority, const char *name, hw
         update(this, "Display_update") {
 }
 
+/**
+ * The function test the display for bad pixels.
+ *
+ * */
+
 void DisplayController::test() {
     display.clear();
     display.flush();
@@ -24,10 +29,14 @@ void DisplayController::test() {
         }
     }
     display.flush();
-    hwlib::wait_ms(60 * 3);
+    hwlib::wait_ms(60 * 5);
     display.clear();
     display.flush();
 }
+
+/**
+ * Shows the player his info, such as weapon, player_ID and remeaning time and bullets on the display.
+ */
 
 void DisplayController::main() {
     auto font16 = hwlib::font_default_16x16();
@@ -71,11 +80,15 @@ void DisplayController::main() {
         }
         bottom << "\f"
                << "______________\n"
-               << "ID: " << playerid_pool.read() << " W:" << weapon_pool.read() << "\n";
+               << "ID: " << playerid_pool.read() << " W:" << GetWeaponName(weapon_pool.read()) << "\n";
         display.flush();
         wait(update);
     }
 }
+
+/**
+ * Shows the master menu and the settings screens for player_ID, weapon and command.
+ */
 
 void DisplayController::mainMaster() {
     auto font8 = hwlib::font_default_8x8();
@@ -117,7 +130,7 @@ void DisplayController::mainMaster() {
                 << "\n";
 
             body << "\f"
-                 << "Weapon: " << weapon_pool.read() << "\n"
+                 << "Weapon: " << GetWeaponName(weapon_pool.read()) << "\n"
                  << "\n"
                  << "\n"
                  << "______________" << "\n";
@@ -147,40 +160,77 @@ void DisplayController::mainMaster() {
     }
 }
 
-void DisplayController::setTime(int time) {
-    time_pool.write(time);
+/**
+ * Updates the time on the display.
+ * @param time_in_minutes
+ */
+
+void DisplayController::setTime(int time_in_minutes) {
+    time_pool.write(time_in_minutes);
     update.set();
 }
 
-void DisplayController::setBullets(int number) {
-    bullets_pool.write(number);
+/**
+ * Updates the anount of bullets left.
+ * @param number_of_bullets
+ */
+
+void DisplayController::setBullets(int number_of_bullets) {
+    bullets_pool.write(number_of_bullets);
     update.set();
 }
+
+/**
+ * Updates the weapon shown on the display.
+ * @param weapon
+ */
 
 void DisplayController::setWeapon(Weapons weapon) {
     weapon_pool.write((int) weapon);
     update.set();
 }
 
-void DisplayController::setPlayerId(int player) {
-    playerid_pool.write(player);
+/**
+ * Updates the player_ID shown on the display.
+ * @param player_ID
+ */
+
+void DisplayController::setPlayerId(int player_ID) {
+    playerid_pool.write(player_ID);
     update.set();
 }
+
+/**
+ * Show the player that he is hit.
+ */
 
 void DisplayController::hit() {
     hitBool = true;
     update.set();
 }
 
+/**
+ * Show the player that he can play again.
+ */
+
 void DisplayController::hitClear() {
     hitBool = false;
     update.set();
 }
 
+/**
+ * Displays the master menu.
+ */
+
 void DisplayController::masterMenu() {
     master_pool.write(1);
     update.set();
 }
+
+/**
+ * Update player_ID for master in player settings page.
+ * @param id
+ */
 
 void DisplayController::playerEdit(int id) {
     playerid_pool.write(id);
@@ -188,11 +238,21 @@ void DisplayController::playerEdit(int id) {
     update.set();
 }
 
-void DisplayController::weaponEdit(int weaponInput) {
-    weapon_pool.write(weaponInput);
+/**
+ * Update weapon for master in weapon settings page.
+ * @param weapon_ID
+ */
+
+void DisplayController::weaponEdit(int weapon_ID) {
+    weapon_pool.write(weapon_ID);
     master_pool.write(3);
     update.set();
 }
+
+/**
+ * Update command id for master in command settings page.
+ * @param weapon_ID
+ */
 
 void DisplayController::commandEdit(int commandInput) {
     command_pool.write(commandInput);
@@ -200,10 +260,18 @@ void DisplayController::commandEdit(int commandInput) {
     update.set();
 }
 
+/**
+ * Ask for confirmation to send the command.
+ */
+
 void DisplayController::confirm() {
     master_pool.write(5);
     update.set();
 }
+
+/**
+ * Show the player screen.
+ */
 
 void DisplayController::end() {
     master_pool.write(0);
