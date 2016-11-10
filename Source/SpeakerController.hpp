@@ -22,7 +22,8 @@ private:
 public:
     //! The constructor.
     /*!
-      A more elaborate description of the constructor.
+     * constructor contains the pin where the sound will be send to
+     * and it conains rtos task's , flags and a timer.
     */
     SpeakerController(unsigned int priority, const char* name, hwlib::pin_out & lsp):
     task(priority, name),  lsp(lsp), SpeakerTimer(this, "SpeakerTimer"), ShootFlag(this, "ShootFlag"), HitFlag(this ,"HitFlag") {};
