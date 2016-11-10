@@ -5,7 +5,7 @@
 #include "ButtonController.hpp"
 
 void ButtonController::main() {
-    int state = 0;
+    int state = 1;
     while (1) {
         if (btn.get() == 1 && state == 1) {
             game.buttonPressed();
