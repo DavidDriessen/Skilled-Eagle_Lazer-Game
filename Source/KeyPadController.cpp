@@ -4,23 +4,23 @@
 
 #include "KeyPadController.hpp"
 
-
+//! The main
 void KeyPadController::main() {
-    int a_n = 0;
-    int c_n = 0;
-    int a_numbers[100];
-    int c_numbers[100];
-    int a_condition = 0;
-    int c_condition = 0;
-    int a_input_array_size = 0;
-    int c_input_array_size = 0;
+    int a_n = 0;            //! Array walker for A
+    int c_n = 0;            //! Array walker for C
+    int a_numbers[100];     //! Array for A
+    int c_numbers[100];     //! Array for C
+    int a_condition = 0;    //! While loop breaker for A
+    int c_condition = 0;    //! While loop breaker for C
+    int a_input_array_size = 0; //! Array size A
+    int c_input_array_size = 0;  //! Array size C
 
     while (1) {
         auto c = keypad.getc();
 
         if (c == 'A') {
             display.playerEdit(0);
-            while (a_condition == 0) {
+            while (a_condition == 0) {              //! 
                 auto t = keypad.getc();
                 if (t >= '0' && t <= '9') {
                     a_numbers[a_n] = t - '0';
@@ -80,7 +80,13 @@ void KeyPadController::main() {
     }
 }
 
-
+//! Array to Intger
+/**
+ * This function make from a array a intger
+ * Exemple array = {1,2,3}
+ * int test = array_to_intger(array, 3)
+ * test = 123
+ * */
 int KeyPadController::array_to_intger(int *content, int array_size) {
     int finalNumber = 0;
     int tmp = 0;
