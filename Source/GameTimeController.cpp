@@ -8,30 +8,34 @@
  *
  * @param time is an unsigned int indicating the duration of the total game duration.
  */
-void GameTimeController::start(unsigned long time){
+void GameTimeController::start(unsigned long time) {
     this->time = time;
-    gameTime.set(time);
     updateTime.set(60 * rtos::s);
     displayController.setTime((int) time);
 }
+
 /**
  * Stops the game that is running in the GameController.
  */
-void GameTimeController::stop(){
+void GameTimeController::stop() {
     gameController->disable();
 }
+
 /**
  * Main function, waiting for 2 flags. If game time runs out, stop game. if update timer runs out change and update the display.
  */
-void GameTimeController::main(){
-    for(;;){
-        rtos::event evt = wait(gameTime + updateTime);
-        if(evt == gameTime) {
-            stop();
-        }
-        if(evt == updateTime){
-            time --;
-            displayController.setTime(time);
+void GameTimeController::main() {
+    for (;;) {
+        rtos::event evt = wait(updateTime);
+        if (evt == updateTime) {
+            if (time <= 0) {
+                displayController.setTime(time);
+                stop();
+            } else {
+                time--;
+                displayController.setTime(time);
+                updateTime.set(60 * rtos::s);
+            }
         }
     }
 

@@ -16,7 +16,6 @@ class GameController;
 class GameTimeController: public rtos::task<>{
     private:
         void main();
-        rtos::timer gameTime;
         rtos::timer updateTime;
         GameController  * gameController;
         DisplayController & displayController;
@@ -28,7 +27,7 @@ class GameTimeController: public rtos::task<>{
                            GameController * gameController,
                            DisplayController & displayController
         ):
-                task(priority, name), gameTime(this, "gameTime"), updateTime(this, "updateTime"), gameController(gameController), displayController(displayController){};
+                task(priority, name), updateTime(this, "updateTime"), gameController(gameController), displayController(displayController){};
 
         void start(unsigned long time);
 

@@ -166,6 +166,9 @@ void DisplayController::mainMaster() {
  */
 
 void DisplayController::setTime(int time_in_minutes) {
+    if (time_in_minutes < 0) {
+        time_in_minutes = 0;
+    }
     time_pool.write(time_in_minutes);
     update.set();
 }

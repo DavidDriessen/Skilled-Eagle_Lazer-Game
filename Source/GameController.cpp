@@ -50,7 +50,7 @@ void GameController::main() {
                     currentState = waiting;
                     bullets = 15;
                     display.setBullets(bullets);
-                    display.setTime(gameTime);
+                    timer.start(gameTime);
                     irSender.write_speler((unsigned char) playerId);
                     irSender.write_data((unsigned char) weapon);
                 }
@@ -58,13 +58,11 @@ void GameController::main() {
             case waiting:
                 if (evt == game_stop) {
                     currentState = disabled;
-                }
-                if (evt == shot_flag) {
+                } else if (evt == shot_flag) {
                     currentState = State::shot;
                     display.hit();
                     speaker.hit();
-                }
-                if (evt == button_pressed) {
+                } else if (evt == button_pressed) {
                     currentState = shoot;
                     if (bullets != 0) {
                         bullets--;
@@ -77,31 +75,26 @@ void GameController::main() {
                         currentState = reloading;
                         reload_timer.set(5 * rtos::s);
                     }
-
                 }
                 break;
             case State::shot:
                 if (evt == game_stop) {
                     currentState = disabled;
-                }
-                if (evt == shot_timer) {
+                } else if (evt == shot_timer) {
                     currentState = waiting;
                     display.hitClear();
                 }
                 break;
             case shoot:
-                if (evt == shot_flag) {
+                if (evt == game_stop) {
+                    currentState = disabled;
+                } else if (evt == shot_flag) {
                     currentState = State::shot;
                     display.hit();
                     speaker.hit();
-                }
-                if (evt == button_released) {
+                } else if (evt == button_released) {
                     currentState = waiting;
-                }
-                if (evt == game_stop) {
-                    currentState = disabled;
-                }
-                if (evt == fire_timer) {
+                } else if (evt == fire_timer) {
                     if (bullets != 0) {
                         bullets--;
                         irSender.fire();
@@ -115,17 +108,14 @@ void GameController::main() {
                     }
                 }
                 break;
-
             case reloading:
-                if (evt == shot_flag) {
+                if (evt == game_stop) {
+                    currentState = disabled;
+                } else if (evt == shot_flag) {
                     currentState = State::shot;
                     display.hit();
                     speaker.hit();
-                }
-                if (evt == game_stop) {
-                    currentState = disabled;
-                }
-                if (evt == reload_timer) {
+                } else if (evt == reload_timer) {
                     currentState = waiting;
                     bullets = 15;
                     display.setBullets(bullets);
@@ -152,7 +142,6 @@ void GameController::shot(int playerId, int weaponPower) {
  */
 void GameController::enable() {
     game_start.set();
-    timer.start(gameTime);
 }
 
 /**
@@ -221,6 +210,5 @@ void GameController::setPlayerId(int playerId) {
 
 void GameController::setTime(int time) {
     gameTime = time;
-    display.setTime(time);
 }
 
