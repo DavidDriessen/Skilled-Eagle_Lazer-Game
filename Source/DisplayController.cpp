@@ -65,7 +65,7 @@ void DisplayController::main() {
         if (hitBool) {
             middel << "\f"
                    << "  HIT" << "\n"
-                   << "" << "\n";
+                   << "         " << "\n";
         } else {
             if (bullets_pool.read() == 0) {
 
@@ -166,6 +166,9 @@ void DisplayController::mainMaster() {
  */
 
 void DisplayController::setTime(int time_in_minutes) {
+    if (time_in_minutes < 0) {
+        time_in_minutes = 0;
+    }
     time_pool.write(time_in_minutes);
     update.set();
 }
