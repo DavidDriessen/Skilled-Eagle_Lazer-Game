@@ -218,10 +218,19 @@ void DisplayController::hitClear() {
     update.set();
 }
 
+/**
+ * Displays the master menu.
+ */
+
 void DisplayController::masterMenu() {
     master_pool.write(1);
     update.set();
 }
+
+/**
+ * Update player_ID for master in player settings page.
+ * @param id
+ */
 
 void DisplayController::playerEdit(int id) {
     playerid_pool.write(id);
@@ -229,11 +238,21 @@ void DisplayController::playerEdit(int id) {
     update.set();
 }
 
-void DisplayController::weaponEdit(int weaponInput) {
-    weapon_pool.write(weaponInput);
+/**
+ * Update weapon for master in weapon settings page.
+ * @param weapon_ID
+ */
+
+void DisplayController::weaponEdit(int weapon_ID) {
+    weapon_pool.write(weapon_ID);
     master_pool.write(3);
     update.set();
 }
+
+/**
+ * Update command id for master in command settings page.
+ * @param weapon_ID
+ */
 
 void DisplayController::commandEdit(int commandInput) {
     command_pool.write(commandInput);
@@ -241,10 +260,18 @@ void DisplayController::commandEdit(int commandInput) {
     update.set();
 }
 
+/**
+ * Ask for confirmation to send the command.
+ */
+
 void DisplayController::confirm() {
     master_pool.write(5);
     update.set();
 }
+
+/**
+ * Show the player screen.
+ */
 
 void DisplayController::end() {
     master_pool.write(0);
