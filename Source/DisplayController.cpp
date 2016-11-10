@@ -4,8 +4,6 @@
 
 #include "DisplayController.hpp"
 
-int master = 0;
-
 void DisplayController::main() {
     auto font16 = hwlib::font_default_16x16();
     auto font8 = hwlib::font_default_8x8();
@@ -23,6 +21,9 @@ void DisplayController::main() {
                                       hwlib::location(128, 32));
     auto bottom = hwlib::window_ostream(wbottom, font8);
     while (1) {
+        if(master > 0){
+            mainMaster();
+        }
         top << "\f"
             << "Time: " << time << "\n"
             << "______________" << "\n";
@@ -62,7 +63,7 @@ void DisplayController::mainMaster() {
         if (master == 1) {
             top << "\f"
                 << "______________\n"
-                << "A. Player" << "\n";
+                << "\n";
 
             body << "\f"
                  << "A. Player\n"

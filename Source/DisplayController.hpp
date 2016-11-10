@@ -13,7 +13,7 @@
 class DisplayController : public rtos::task<> {
     hwlib::glcd_oled_buffered &display;
 
-    int master = 1;
+    int master = 0;
     int time = 0;
     int bullets = 0;
     int playerid = 0;
