@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include "Weapons.hpp"
 #include "DisplayController.hpp"
+//! KeyPadController class / rtos task.
+/** This class contains all the logic for the keypad*/
 
 using namespace hwlib;
 
